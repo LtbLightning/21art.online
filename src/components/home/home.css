@@ -65,7 +65,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   background-color: rgba(255, 255, 255, 0.2);
   border:4px solid #BF40BF;
   overflow: hidden;
@@ -122,6 +121,10 @@
   width: 35px;
   height: 34px;
   opacity: 0.5;
+}
+.screen-icon {
+  width: 20.43px;
+  height: 20.43px;
 }
 .action-buttons-outer-container:hover {
   opacity: 1;
@@ -209,6 +212,7 @@
   object-fit: cover;
   margin-right: 6px;
   margin-left: 6px;
+  border-radius: 5px;
 }
 .carousel-image:hover {
   transform: scale(1.2);
@@ -222,7 +226,67 @@
   border: 4px solid #ffff;
   border-radius: 10px;
 }
-
+.qrcode-outer-container {
+  width: 520px;
+  height: 610px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border:4px solid #BF40BF;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  background-color: transparent !important;
+}
+.qrcode-action-button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.screen-button-container {
+  width: 46.43px;
+  height: 46.43px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  margin-left: 65px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.qr-code {
+  width: 391.86px;
+  height: 393.1px;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 65px;
+  border-radius: 20px;
+}
+.qr-code-icon {
+  width: 317.57px;
+  height: 318.81px;
+}
+.button {
+  background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+  border-radius: 10px;
+  width: 394px;
+  height: 60px;
+}
+.qrcode-bottom-button {
+  margin-top: 30px;
+  margin-left: 65px;
+}
+.close-button {
+  padding-top: 6px !important;
+  padding-right: 12px !important;
+  width: 35px !important;
+  height: 35px !important;
+}
 /* Media Queries */
 /* For small laptop screens */
 @media screen and (max-width: 1500px) {
@@ -276,6 +340,10 @@
     width: 30.14px;
     height: 29.06px;
   }
+  .screen-icon{
+    width: 12.19px;
+    height: 12.19px;
+  }
   .carousel-outer-container { 
     width: 100vw;
     top: 80vh;
@@ -305,9 +373,71 @@
   .carousel-image {
     width: 130px;
     height: 90px;
+    border-radius: 5px;
   }
   .outer-stroke {
     border-radius: 6px;
+  }
+  .qrcode-outer-container {
+    width: 310.3px;
+    height: 364px;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border:4px solid #BF40BF;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+  }
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    background-color: transparent !important;
+  }
+  .qrcode-action-button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .screen-button-container {
+    width: 27.7px;
+    height: 27.7px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    margin-left: 38px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  .qr-code {
+    width: 233.83px;
+    height: 234.57px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 38px;
+    border-radius: 10px;
+  }
+  .qr-code-icon {
+    width: 189.5px;
+    height: 190.24px;
+  }
+  .button {
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 6px;
+    width: 235.11px;
+    height: 36px;
+  }
+  .qrcode-bottom-button {
+    margin-top: 20px;
+    margin-left: 38px;
+  }
+  .close-button {
+    padding-top: 2px !important;
+    padding-right: 6px !important;
+    width: 25px !important;
+    height: 25px !important;
   }
 }
 
@@ -370,9 +500,13 @@
     width: 17.92px;
     height: 17.44px;
   }
+  .screen-icon {
+    width: 9.04px;
+    height: 9.04px;
+  }
   .carousel-outer-container { 
     width: 100vw;
-    top: 80vh;
+    top: 85vh;
   }
   .carousel-container {
     width: 390px;
@@ -399,8 +533,396 @@
   .carousel-image {
     width: 90px;
     height: 76px;
+    border-radius: 5px;
   }
   .outer-stroke {
     border-radius: 4px;
+  }
+  .qrcode-outer-container {
+    width: 230px;
+    height: 274px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border:2px solid #BF40BF;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+  }
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    background-color: transparent !important;
+  }
+  .qrcode-action-button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .screen-button-container {
+    width: 20.54px;
+    height: 20.54px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    margin-left: 27.3px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  .qr-code {
+    width: 173.32px;
+    height: 173.87px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 28.2px;
+    border-radius: 10px;
+  }
+  .qr-code-icon {
+    width: 140.46px;
+    height: 141.01px;
+  }
+  .button {
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 5px;
+    width: 174px;
+    height: 36px;
+  }
+  .qrcode-bottom-button {
+    margin-top: 10px;
+    margin-left: 28.2px;
+  }
+  .close-button {
+    padding-top: 2px !important;
+    padding-right: 6px !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+/* For small mobile screens */
+@media screen and (min-width:320px) and (max-width:424px) {
+  .logo {
+    width: 95.8px !important;
+    height: 25.5px !important;
+  }
+  .logo-container {
+    width: 120px;
+    height: 42px;
+    margin: 20px;
+    border-radius: 4px;
+    border:1.5px solid #BF40BF;
+  }
+  .arrow-left {
+    width: 8.92px;
+    height: 16.02px;
+  }
+  .arrow-right {
+    width: 8.92px;
+    height: 16.02px;
+  }
+  .arrow-container-left {
+    width: 25px;
+    height: 42px;
+    margin-left: 20px;
+  }
+  .arrow-container-right {
+    width: 25px;
+    height: 42px;
+    margin-right: 20px;
+  }
+  .action-buttons-outer-container { 
+    width: 210px;
+    height: 52px;
+    border-radius: 6px;
+    border:2px solid #BF40BF;
+  }
+  .action-button-container {
+    width: 40.54px;
+    height: 38.67px;
+    border-radius: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  .flash-icon {
+    width: 10.93px;
+    height: 15.11px;
+  }
+  .download-icon {
+    width: 13.21px;
+    height: 13.78px;
+  }
+  .fullscreen-icon {
+    width: 15.49px;
+    height: 15.11px;
+  }
+  .like-icon {
+    width: 15.94px;
+    height: 15.11px;
+  }
+  .screen-icon {
+    width: 7.07px;
+    height: 7.06px;
+  }
+  .carousel-outer-container { 
+    width: 100vw;
+    top: 85vh;
+  }
+  .carousel-container {
+    width: 280px;
+    height: 72px;
+    border:2px solid #BF40BF;
+  }
+  .carousel-arrow-container-left {
+    width: 18px;
+    height: 54px;
+    margin-left: 6px;
+    border-radius: 4px;
+  }
+  .carousel-arrow-container-right {
+    width: 18px;
+    height: 54px;
+    margin-right: 6px;
+    border-radius: 4px;
+  }
+  .carousel-arrow-left {
+    width: 6.43px;
+    height: 11.38px;
+  }
+  .carousel-arrow-right {
+    width: 6.43px;
+    height: 11.38px;
+  }
+  .carousel-image {
+    width: 64px;
+    height: 54px;
+    margin-right: 4px;
+    margin-left: 4px;
+    border-radius: 5px;
+  }
+  .outer-stroke {
+    border: 2px solid #ffff;
+    border-radius: 4px;
+  }
+  .qrcode-outer-container {
+    width: 180px;
+    height: 214px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border:2px solid #BF40BF;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+  }
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    background-color: transparent !important;
+  }
+  .qrcode-action-button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .screen-button-container {
+    width: 16.07px;
+    height: 16.04px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    margin-left: 21.43px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  .qr-code {
+    width: 135.64px;
+    height: 135.8px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    margin-left: 22.07px;
+    border-radius: 8px;
+  }
+  .qr-code-icon {
+    width: 109.93px;
+    height: 110.13px;
+  }
+  .button {
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 4px;
+    width: 136.17px;
+    height: 28.12px;
+  }
+  .qrcode-bottom-button {
+    margin-top: 7.69;
+    margin-left: 22.07px;
+  }
+  .close-button {
+    padding-top: 2px !important;
+    padding-right: 6px !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+/* For tablet screens */
+@media screen and (min-width:426px) and (max-width:1024px) {
+  .logo {
+    width: 190px !important;
+    height: 51px !important;
+  }
+  .logo-container {
+    width: 238px;
+    height: 95px;
+    margin: 30px;
+    border-radius: 10px;
+  }
+  .arrow-left {
+    width: 15.35px;
+    height: 26.7px;
+  }
+  .arrow-right {
+    width: 15.35px;
+    height: 26.7px;
+  }
+  .arrow-container-left {
+    width: 43px;
+    height: 70px;
+    margin-left: 30px;
+  }
+  .arrow-container-right {
+    width: 43px;
+    height: 70px;
+    margin-right: 30px;
+  }
+  .action-buttons-outer-container { 
+    width: 461px;
+    height: 117px;
+    border-radius: 10px;
+  }
+  .action-button-container {
+    width: 89px;
+    height: 87px;
+    border-radius: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  .flash-icon {
+    width: 24px;
+    height: 34px;
+  }
+  .download-icon {
+    width: 29px;
+    height: 31px;
+  }
+  .fullscreen-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .like-icon {
+    width: 19.8px;
+    height: 19.8px;
+  }
+  .screen-icon {
+    width: 19.8px;
+    height: 19.8px;
+  }
+  .carousel-outer-container { 
+    width: 100vw;
+    top: 85vh;
+  }
+  .carousel-container {
+    width: 730px;
+    height: 120px;
+  }
+  .carousel-arrow-container-left {
+    width: 35px;
+    height: 90px;
+    border-radius: 5px;
+  }
+  .carousel-arrow-container-right {
+    width: 35px;
+    height: 90px;
+    border-radius: 5px;
+  }
+  .carousel-arrow-left {
+    width: 15.35px;
+    height: 26.7px;
+  }
+  .carousel-arrow-right {
+    width: 15.35px;
+    height: 26.7px;
+  }
+  .carousel-image {
+    width: 110px;
+    height: 90px;
+    border-radius: 5px;
+  }
+  .outer-stroke {
+    border-radius: 4px;
+  }
+  .qrcode-outer-container {
+    width: 504px;
+    height: 596px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border:4px solid #BF40BF;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+  }
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    background-color: transparent !important;
+  }
+  .qrcode-action-button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .screen-button-container {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    margin-left: 60px;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  .qr-code {
+    width: 379.8px;
+    height: 381px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 60px;
+    border-radius: 10px;
+  }
+  .qr-code-icon {
+    width: 307.8px;
+    height: 309px;
+  }
+  .button {
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 10px;
+    width: 380px;
+    height: 60px;
+  }
+  .qrcode-bottom-button {
+    margin-top: 30px;
+    margin-left: 60px;
+  }
+  .close-button {
+    padding-top: 2px !important;
+    padding-right: 10px !important;
+    width: 35px !important;
+    height: 35px !important;
   }
 }
