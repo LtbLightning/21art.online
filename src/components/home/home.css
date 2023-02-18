@@ -34,7 +34,11 @@
   justify-content: center;
   overflow: hidden;
   backdrop-filter: blur(4px);
+  opacity: 0.5;
   cursor: pointer;
+}
+.arrow-container-left:hover {
+  opacity: 1;
 }
 .arrow-container-right {
   z-index: 999 !important;
@@ -48,7 +52,11 @@
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
+  opacity: 0.5;
   backdrop-filter: blur(4px);
+}
+.arrow-container-right:hover {
+  opacity: 1;
 }
 .action-buttons-outer-container {
   width: 461px;
@@ -163,13 +171,16 @@
   justify-content: center;
   overflow: hidden;
   backdrop-filter: blur(4px);
+  opacity: 0.5;
   cursor: pointer;
+}
+.carousel-arrow-container-left:hover {
+  opacity: 1;
 }
 .carousel-arrow-left {
   width: 21.42px;
   height: 37px;
 }
-
 .carousel-arrow-container-right {
   z-index: 999 !important;
   width: 46px;
@@ -182,7 +193,11 @@
   justify-content: center;
   overflow: hidden;
   backdrop-filter: blur(4px);
+  opacity: 0.5;
   cursor: pointer;
+}
+.carousel-arrow-container-right:hover {
+  opacity: 1;
 }
 .carousel-arrow-right {
   width: 21.42px;
@@ -209,7 +224,7 @@
 }
 
 /* Media Queries */
-
+/* For small laptop screens */
 @media screen and (max-width: 1500px) {
   .logo {
     width: 142px !important;
@@ -293,5 +308,99 @@
   }
   .outer-stroke {
     border-radius: 6px;
+  }
+}
+
+/* For mobile screens */
+@media screen and (max-width: 430px) {
+  .logo {
+    width: 135px !important;
+    height: 36px !important;
+  }
+  .logo-container {
+    width: 170px;
+    height: 60px;
+    margin: 20px;
+    border-radius: 6px;
+  }
+  .arrow-left {
+    width: 8.92px;
+    height: 16.02px;
+  }
+  .arrow-right {
+    width: 8.92px;
+    height: 16.02px;
+  }
+  .arrow-container-left {
+    width: 25px;
+    height: 42px;
+    margin-left: 20px;
+  }
+  .arrow-container-right {
+    width: 25px;
+    height: 42px;
+    margin-right: 20px;
+  }
+  .action-buttons-outer-container { 
+    width: 236px;
+    height: 60px;
+    border-radius: 6px;
+
+  }
+  .action-button-container {
+    width: 45.56px;
+    height: 44.62px;
+    border-radius: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  .flash-icon {
+    width: 12.29px;
+    height: 17.44px;
+  }
+  .download-icon {
+    width: 14.85px;
+    height: 15.9px;
+  }
+  .fullscreen-icon {
+    width: 17.41px;
+    height: 17.44px;
+  }
+  .like-icon {
+    width: 17.92px;
+    height: 17.44px;
+  }
+  .carousel-outer-container { 
+    width: 100vw;
+    top: 80vh;
+  }
+  .carousel-container {
+    width: 390px;
+    height: 100px;
+  }
+  .carousel-arrow-container-left {
+    width: 25px;
+    height: 76px;
+    border-radius: 4px;
+  }
+  .carousel-arrow-container-right {
+    width: 25px;
+    height: 76px;
+    border-radius: 4px;
+  }
+  .carousel-arrow-left {
+    width: 8.92px;
+    height: 16.02px;
+  }
+  .carousel-arrow-right {
+    width: 8.92px;
+    height: 16.02px;
+  }
+  .carousel-image {
+    width: 90px;
+    height: 76px;
+  }
+  .outer-stroke {
+    border-radius: 4px;
   }
 }

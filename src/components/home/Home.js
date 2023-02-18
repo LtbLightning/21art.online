@@ -1,7 +1,9 @@
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
 import './home.css'
 
 const Home = () => {
+const isMobile = useMediaQuery({ maxWidth: 430 })
   return (
     <div>
       <img className='image-container' src={require('./../../assets/img/image6.png')} alt='image1' />
@@ -36,11 +38,11 @@ const Home = () => {
             <img className='carousel-arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
           </div>
           <div className='carousel-image-container'>
-            <img className='carousel-image' src={require('./../../assets/img/image1.jpg')} alt='image1' />
+            { !isMobile && <img className='carousel-image' src={require('./../../assets/img/image1.jpg')} alt='image1' /> }
             <img className='carousel-image' src={require('./../../assets/img/image2.jpg')} alt='image1' />
             <img className='carousel-image outer-stroke' src={require('./../../assets/img/image6.png')} alt='image1' />
             <img className='carousel-image' src={require('./../../assets/img/image3.jpg')} alt='image1' />
-            <img className='carousel-image' src={require('./../../assets/img/image4.jpg')} alt='image1' />
+            { !isMobile && <img className='carousel-image' src={require('./../../assets/img/image4.jpg')} alt='image1' /> }
           </div>
           <div className='carousel-arrow-container-right'>
             <img className='carousel-arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-left' />
