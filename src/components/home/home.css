@@ -377,6 +377,7 @@
   }
   .outer-stroke {
     border-radius: 6px;
+    transform:none !important;
   }
   .qrcode-outer-container {
     width: 310.3px;

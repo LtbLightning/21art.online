@@ -4,11 +4,25 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { useState, useEffect } from 'react';
+import image1 from './../../assets/img/image6.png';
+import image2 from './../../assets/img/image1.jpg';
+import image3 from './../../assets/img/image2.jpg';
+import image4 from './../../assets/img/image3.jpg';
+import image5 from './../../assets/img/image4.jpg';
+import image6 from './../../assets/img/image7.jpg';
+import image7 from './../../assets/img/image8.jpg';
+import image8 from './../../assets/img/image9.jpg';
+import image9 from './../../assets/img/image10.jpg';
+import image10 from './../../assets/img/image11.jpg';
 import './home.css'
+
+let imageArr = [image1, image2, image3, image4, image5]
 
 const Home = () => {
   const isMobile = useMediaQuery({ maxWidth: 430 })
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(imageArr[2]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,14 +32,88 @@ const Home = () => {
     setOpen(false);
   };
 
+  const handlePrevious = () => {
+    let index = imageArr.indexOf(selectedImage)
+    if (index !== 0) {
+      setSelectedImage(imageArr[index - 1])
+    }
+  }
+
+  const handleNext = () => {
+    let index = imageArr.indexOf(selectedImage)
+    if (index !== (imageArr.length - 1)) {
+      setSelectedImage(imageArr[index + 1])
+    }
+    if (index === (imageArr.length - 2)) {
+      console.log("Call API", imageArr.length - 1)
+    }
+  }
+
+  const getPreviousImages = () => {
+    let newImages = [image6, image7, image8, image9, image10]
+
+    if(!newImages.includes(selectedImage)) {
+      imageArr = [...newImages]
+    }
+    else {
+      imageArr = [image1, image2, image3, image4, image5]
+    }
+    setSelectedImage(imageArr[2])
+  }
+
+  const getNextImages = () => {
+    let newImages = [image6, image7, image8, image9, image10]
+    if(!newImages.includes(selectedImage)) {
+      imageArr = [...newImages]
+    }
+    else {
+      imageArr = [image1, image2, image3, image4, image5]
+    }
+    setSelectedImage(imageArr[2])
+  }
+
+  const useKeyPress = function (targetKey) {
+    useEffect(() => {
+      const keyHandler = ({ key }) => {
+        if (key === targetKey) {
+          if (key === 'ArrowUp') {
+            handleNext()
+          }
+          else if (key === 'ArrowDown') {
+            handlePrevious()
+          }
+          else if (key === 'ArrowLeft') {
+            handlePrevious()
+          }
+          else if (key === 'ArrowRight') {
+            handleNext()
+          }
+        }
+      };
+
+      window.addEventListener("keyup", keyHandler)
+
+      return () => {
+        window.removeEventListener("keyup", keyHandler)
+      };
+    })
+
+    return
+  };
+
+  useKeyPress("ArrowUp");
+  useKeyPress("ArrowDown");
+  useKeyPress("ArrowLeft");
+  useKeyPress("ArrowRight");
+
   return (
     <div>
-      <img className='image-container' src={require('./../../assets/img/image6.png')} alt='image1' />
+      <img className='image-container' src={selectedImage} alt='image1' />
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
       </div>
       <div className='arrows'>
-        <div className='arrow-container-left'>
+        <div className='arrow-container-left' onClick={handlePrevious}>
           <img className='arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
         </div>
         <div className='action-buttons-outer-container'>
@@ -42,23 +130,21 @@ const Home = () => {
             <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' />
           </div>
         </div>
-        <div className='arrow-container-right'>
+        <div className='arrow-container-right' onClick={handleNext}>
           <img className='arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-right' />
         </div>
       </div>
       <div className='carousel-outer-container'>
         <div className='carousel-container'>
-          <div className='carousel-arrow-container-left'>
+          <div className='carousel-arrow-container-left' onClick={getPreviousImages}>
             <img className='carousel-arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
           </div>
           <div className='carousel-image-container'>
-            {!isMobile && <img className='carousel-image' src={require('./../../assets/img/image1.jpg')} alt='image1' />}
-            <img className='carousel-image' src={require('./../../assets/img/image2.jpg')} alt='image1' />
-            <img className='carousel-image outer-stroke' src={require('./../../assets/img/image6.png')} alt='image1' />
-            <img className='carousel-image' src={require('./../../assets/img/image3.jpg')} alt='image1' />
-            {!isMobile && <img className='carousel-image' src={require('./../../assets/img/image4.jpg')} alt='image1' />}
+            {imageArr.map((object, i) => {
+              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage === object ? 'outer-stroke' : ''}`} src={object} key={i} alt={`images-${i}`} onClick={() => setSelectedImage(object)} />)
+            })}
           </div>
-          <div className='carousel-arrow-container-right'>
+          <div className='carousel-arrow-container-right' onClick={getNextImages}>
             <img className='carousel-arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-left' />
           </div>
         </div>
