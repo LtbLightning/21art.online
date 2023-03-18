@@ -1,19 +1,20 @@
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { useState, useEffect } from 'react';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getImagesFetch, getNextImagesFetch, getPreviousImagesFetch, updateImagesSet } from '../../stores/galleryStore/galleryState'
 import './home.css'
-import { useSelector, useDispatch } from 'react-redux';
-import { getImagesFetch, getNextImagesFetch, getImagesSuccess } from '../../stores/galleryStore/galleryState';
 
+let page = 2
 const Home = () => {
   const dispatch = useDispatch()
   const currentImages = useSelector(state => state.gallery.currentImageSet)
   const nextImages = useSelector(state => state.gallery.nextImageSet)
-  const previousImages = useSelector(state => state.gallery.PreviousImageSet)
+  const previousImages = useSelector(state => state.gallery.previousImageSet)
   const isMobile = useMediaQuery({ maxWidth: 430 })
   const [imageArr, setImageArr] = useState([]);
   const [open, setOpen] = useState(false);
@@ -21,17 +22,17 @@ const Home = () => {
 
   const imageClicked = (selectedObject) => {
     setSelectedImage(selectedObject)
-    if((selectedObject.sequencedId % 5 == 4) && (selectedObject.sequencedId > 10)) {
-      dispatch(getNextImagesFetch())
+    if (((selectedObject.sequencedId % 5) === 4) && (selectedObject.sequencedId > 10)) {
+      dispatch(getNextImagesFetch(page))
     }
-    if((selectedObject.sequencedId % 5 == 2) && (selectedObject.sequencedId > 2)) {
-      // dispatch(getPreviousImagesFetch())
-       // left arrow will be disabled when sequenced id == 1
-    }   
+    if (((selectedObject.sequencedId % 5) === 2) && (selectedObject.sequencedId > 2)) {
+      dispatch(getPreviousImagesFetch(page))
+      // left arrow will be disabled when sequenced id == 1
+    }
   }
   useEffect(() => {
     setImageArr(currentImages)
-    if(currentImages.length) {
+    if (currentImages.length) {
       setSelectedImage(currentImages[2])
     }
   }, [currentImages])
@@ -66,29 +67,21 @@ const Home = () => {
   }
 
   const getPreviousImages = () => {
-
-    // let newImages = [image6, image7, image8, image9, image10]
-
-    // if (!newImages.includes(selectedImage)) {
-    //   setImageArr([...newImages])
-    // }
-    // else {
-    //   // imageArr = [image1, image2, image3, image4, image5]
-    // }
-   
-    // setImageArr(images)
-    // setSelectedImage(imageArr[2])
+    if (page > 2) {
+      page = page - 1
+      setImageArr(previousImages)
+      dispatch(updateImagesSet({ imagesSetType: 'nextImageSet', imagesSet: currentImages }))
+      dispatch(updateImagesSet({ imagesSetType: 'currentImageSet', imagesSet: previousImages }))
+      dispatch(getPreviousImagesFetch(page))
+    }
   }
 
   const getNextImages = () => {
-    // dispatch(getImagesSuccess(nextImages))
-    // if (!newImages.includes(selectedImage)) {
-    //   setImageArr([...newImages])
-    // }
-    // else {
-    //   // imageArr = [image1, image2, image3, image4, image5]
-    // }
-    // setSelectedImage(imageArr[2])
+    page = page + 1
+    setImageArr(nextImages)
+    dispatch(updateImagesSet({ imagesSetType: 'previousImageSet', imagesSet: currentImages }))
+    dispatch(updateImagesSet({ imagesSetType: 'currentImageSet', imagesSet: nextImages }))
+    dispatch(getNextImagesFetch(page))
   }
 
   const useKeyPress = function (targetKey) {

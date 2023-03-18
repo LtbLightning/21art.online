@@ -1,9 +1,7 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { getImagesSuccess, getImagesFetch, getNextImagesFetch, getNextImagesSuccess, getPreviousImagesFetch, getPreviousImagesSuccess, getSortedDataSuccess } from './galleryState'
-import axios from 'axios';
-import { Buffer } from 'buffer';
-// const gallerySelector = state => state.gallery;
-// const imagesSelector = select(gallerySelector, gallery => gallery.images);
+import axios from 'axios'
+import { Buffer } from 'buffer'
 
 function* workGetImagesFetch() {
   // Hitting API once
@@ -20,16 +18,6 @@ function* workGetImagesFetch() {
     })
   })
 
-  //next button
-  //previous = images
-  //images = nextimages
-  //nextimages = newAPi call
-
-  //previous button
-  // nextimages = images
-  // images = previous
-  // previousimages = new api call
-
   finalObject.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
   yield put(getSortedDataSuccess(finalObject))
 
@@ -41,39 +29,50 @@ function* workGetImagesFetch() {
     finalImagesArr[index] = { fullscreenImage: fetchedFullImage, ...finalImagesArr[index] }
     finalImagesArr[index] = { thumbnailImage: fetchedThumbnailImage, ...finalImagesArr[index] }
   }
+
   yield put(getImagesSuccess(finalImagesArr))
+  yield workGetNextImagesFetch({ payload: 2 })
 }
 
-function* workGetNextImagesFetch() {
-  // const currentImages = yield select(state => state.gallery.images);
-  // yield put(getPreviousImagesSuccess(currentImages))
+function* workGetPreviousImagesFetch(page) {
+  const sortedData = yield select(state => state.gallery.sortedData);
+  let pageNo = page.payload - 3
+  const startImage = pageNo * 5
+  const endImage = (page.payload - 2) * 5
 
-  // // call the API to get the next set of images
-  // // const images = yield call(getNextImages, galleryState.currentPage)
-  // console.log("Bring next 5", currentImages)
+  // Getting previous 5 objects
+  let finalImagesArr = sortedData.slice(startImage, endImage)
+  for (const [index, image] of finalImagesArr.entries()) {
+    const fetchedFullImage = yield fetchImage(image, 'fullscreen')
+    const fetchedThumbnailImage = yield fetchImage(image, 'thumbnail')
+    finalImagesArr[index] = { fullscreenImage: fetchedFullImage, ...finalImagesArr[index] }
+    finalImagesArr[index] = { thumbnailImage: fetchedThumbnailImage, ...finalImagesArr[index] }
+  }
 
-  // API call will be only first time
-  let refinedData = yield refineData('https://mocki.io/v1/4881ba1f-a0bd-41a5-a9aa-f1173350eb3e')
+  yield put(getPreviousImagesSuccess(finalImagesArr))
+}
 
-  let finalImages = []
-  refinedData.forEach((res) => {
-    const jsonString = res.data[1];
-    const jsonStringUpdated = jsonString.slice(0, -1);
-    const jsonObject = JSON.parse(jsonStringUpdated);
+function* workGetNextImagesFetch(page) {
+  const sortedData = yield select(state => state.gallery.sortedData);
+  const pageNo = page.payload - 1
+  const startImage = pageNo * 5
+  const endImage = page.payload * 5
 
-    let finalObject = {
-      ...jsonObject,
-      originalObject: res.originalObject
-    }
-  })
+  let finalImagesArr = sortedData.slice(startImage, endImage)
+  for (const [index, image] of finalImagesArr.entries()) {
+    const fetchedFullImage = yield fetchImage(image, 'fullscreen')
+    const fetchedThumbnailImage = yield fetchImage(image, 'thumbnail')
+    finalImagesArr[index] = { fullscreenImage: fetchedFullImage, ...finalImagesArr[index] }
+    finalImagesArr[index] = { thumbnailImage: fetchedThumbnailImage, ...finalImagesArr[index] }
+  }
 
-  finalImages.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
-  yield put(getNextImagesSuccess(finalImages))
+  yield put(getNextImagesSuccess(finalImagesArr))
 }
 
 function* gallerySaga() {
   yield takeEvery(getImagesFetch.type, workGetImagesFetch)
   yield takeEvery(getNextImagesFetch.type, workGetNextImagesFetch)
+  yield takeEvery(getPreviousImagesFetch.type, workGetPreviousImagesFetch)
 
 }
 

@@ -5,7 +5,7 @@ export const gallerySlice = createSlice({
   initialState: {
     currentImageSet: [],
     nextImageSet: [],
-    PreviousImageSet: [],
+    previousImageSet: [],
     sortedData: [],
     isLoading: false
   },
@@ -18,6 +18,19 @@ export const gallerySlice = createSlice({
       state.isLoading = false
     },
     getImagesFailure: (state) => {
+      state.isLoading = false
+    },
+    // For updating Images states
+    updateImagesSet: (state, action) => {
+      if(action.payload.imagesSetType === 'currentImageSet') {
+        state.currentImageSet = action.payload.imagesSet
+      }
+      else if (action.payload.imagesSetType === 'nextImageSet') {
+        state.nextImageSet = action.payload.imagesSet
+      }
+      else {
+        state.previousImageSet = action.payload.imagesSet
+      }
       state.isLoading = false
     },
     // For next images
@@ -36,7 +49,7 @@ export const gallerySlice = createSlice({
       state.isLoading = true
     },
     getPreviousImagesSuccess: (state, action) => {
-      state.PreviousImageSet = action.payload
+      state.previousImageSet = action.payload
       state.isLoading = false
     },
     getPreviousImagesFailure: (state) => {
@@ -68,6 +81,7 @@ export const {
   getPreviousImagesFailure,
   getSortedDataFetch,
   getSortedDataSuccess,
-  getSortedDataFailure
+  getSortedDataFailure,
+  updateImagesSet
 } = gallerySlice.actions
 export const reducer = gallerySlice.reducer
