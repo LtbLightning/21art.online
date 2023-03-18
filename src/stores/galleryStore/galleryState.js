@@ -3,32 +3,54 @@ import { createSlice } from "@reduxjs/toolkit"
 export const gallerySlice = createSlice({
   name: 'gallery',
   initialState: {
-    images: [],
-    isLoading: false,
-    isLoggedIn: false,
-    npub: null
+    currentImageSet: [],
+    nextImageSet: [],
+    PreviousImageSet: [],
+    sortedData: [],
+    isLoading: false
   },
   reducers: {
-    doNIP07Login: (state) => {
-    },
-    doNIP07LoginSuccess: (state, action) => {
-      console.log("action.payload", action.payload)
-      state.isLoggedIn = true
-      state.npub = action.payload
-    },
-    doNIP07LoginFailure: (state) => {
-      alert("There was a problem loggin in with your nostr extension\nPlease make sure you have getAlby or Nostore extension installed")
-      state.isLoggedIn = false
-      state.npub = null
-    },
     getImagesFetch: (state) => {
       state.isLoading = true
     },
     getImagesSuccess: (state, action) => {
-      state.images = action.payload
+      state.currentImageSet = action.payload
       state.isLoading = false
     },
     getImagesFailure: (state) => {
+      state.isLoading = false
+    },
+    // For next images
+    getNextImagesFetch: (state) => {
+      state.isLoading = true
+    },
+    getNextImagesSuccess: (state, action) => {
+      state.nextImageSet = action.payload
+      state.isLoading = false
+    },
+    getNextImagesFailure: (state) => {
+      state.isLoading = false
+    },
+    // For previous images
+    getPreviousImagesFetch: (state) => {
+      state.isLoading = true
+    },
+    getPreviousImagesSuccess: (state, action) => {
+      state.PreviousImageSet = action.payload
+      state.isLoading = false
+    },
+    getPreviousImagesFailure: (state) => {
+      state.isLoading = false
+    },
+    // For sorted Data
+    getSortedDataFetch: (state) => {
+      state.isLoading = true
+    },
+    getSortedDataSuccess: (state, action) => {
+      state.sortedData = action.payload
+      state.isLoading = false
+    },
+    getSortedDataFailure: (state) => {
       state.isLoading = false
     }
   }
@@ -38,9 +60,14 @@ export const {
   getImagesFetch,
   getImagesSuccess,
   getImagesFailure,
-  doNIP07Login,
-  doNIP07LoginSuccess,
-  doNIP07LoginFailure
+  getNextImagesFetch,
+  getNextImagesSuccess,
+  getNextImagesFailure,
+  getPreviousImagesFetch,
+  getPreviousImagesSuccess,
+  getPreviousImagesFailure,
+  getSortedDataFetch,
+  getSortedDataSuccess,
+  getSortedDataFailure
 } = gallerySlice.actions
-
 export const reducer = gallerySlice.reducer

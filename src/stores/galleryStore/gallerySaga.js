@@ -1,31 +1,59 @@
-import { call, put, takeEvery, all, fork } from 'redux-saga/effects'
-import {
-  getImagesSuccess,
-  getImagesFailure,
-  getImagesFetch,
-  doNIP07Login,
-  doNIP07LoginSuccess,
-  doNIP07LoginFailure
-} from './galleryState'
-import image1 from './../../assets/img/e7120822.png';
-import image2 from './../../assets/img/b9ab0855.jpg';
-import image3 from './../../assets/img/b666675f.jpg';
-import image4 from './../../assets/img/845374c9.jpg';
-import image5 from './../../assets/img/e8bd3799.jpg';
+import { call, put, takeEvery, select } from 'redux-saga/effects'
+import { getImagesSuccess, getImagesFetch, getNextImagesFetch, getNextImagesSuccess, getPreviousImagesFetch, getPreviousImagesSuccess, getSortedDataSuccess } from './galleryState'
+import axios from 'axios';
+import { Buffer } from 'buffer';
+// const gallerySelector = state => state.gallery;
+// const imagesSelector = select(gallerySelector, gallery => gallery.images);
 
 function* workGetImagesFetch() {
-  const gallery = yield call(() => fetch('https://mocki.io/v1/5c9e5d4e-8c23-4adb-85f9-9158c050e1d4'))
-  const imagesArr = yield gallery.json()
-  let refinedData = []
-  imagesArr.forEach((image) => {
-    let data = []
-    image.tags.forEach((res) => {
-      if (res.includes('21ArtMetaData')) {
-        data.push(...res)
-      }
+  // Hitting API once
+  let refinedData = yield refineData('https://mocki.io/v1/32230ec5-a386-48f4-bc01-0d6199168633')
+  let finalObject = []
+  refinedData.forEach((res) => {
+    const jsonString = res.data[1];
+    const jsonStringUpdated = jsonString.slice(0, -1);
+    const jsonObject = JSON.parse(jsonStringUpdated);
+
+    finalObject.push({
+      ...jsonObject,
+      originalObject: res.originalObject
     })
-    refinedData.push({ data: data, originalObject: image })
   })
+
+  //next button
+  //previous = images
+  //images = nextimages
+  //nextimages = newAPi call
+
+  //previous button
+  // nextimages = images
+  // images = previous
+  // previousimages = new api call
+
+  finalObject.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
+  yield put(getSortedDataSuccess(finalObject))
+
+  // Getting first 5 objects
+  let finalImagesArr = finalObject.slice(0, 5)
+  for (const [index, image] of finalImagesArr.entries()) {
+    const fetchedFullImage = yield fetchImage(image, 'fullscreen')
+    const fetchedThumbnailImage = yield fetchImage(image, 'thumbnail')
+    finalImagesArr[index] = { fullscreenImage: fetchedFullImage, ...finalImagesArr[index] }
+    finalImagesArr[index] = { thumbnailImage: fetchedThumbnailImage, ...finalImagesArr[index] }
+  }
+  yield put(getImagesSuccess(finalImagesArr))
+}
+
+function* workGetNextImagesFetch() {
+  // const currentImages = yield select(state => state.gallery.images);
+  // yield put(getPreviousImagesSuccess(currentImages))
+
+  // // call the API to get the next set of images
+  // // const images = yield call(getNextImages, galleryState.currentPage)
+  // console.log("Bring next 5", currentImages)
+
+  // API call will be only first time
+  let refinedData = yield refineData('https://mocki.io/v1/4881ba1f-a0bd-41a5-a9aa-f1173350eb3e')
 
   let finalImages = []
   refinedData.forEach((res) => {
@@ -37,52 +65,54 @@ function* workGetImagesFetch() {
       ...jsonObject,
       originalObject: res.originalObject
     }
-
-    if (finalObject.id === '44d68b04') {
-      finalImages.push({ fullscreenImage: image1, ...finalObject })
-    }
-    if (finalObject.id === 'e7120822') {
-      finalImages.push({ fullscreenImage: image2, ...finalObject })
-    }
-    if (finalObject.id === 'b9ab0855') {
-      finalImages.push({ fullscreenImage: image3, ...finalObject })
-    }
-    if (finalObject.id === 'b666675f') {
-      finalImages.push({ fullscreenImage: image4, ...finalObject })
-    }
-    if (finalObject.id === 'e8bd3799') {
-      finalImages.push({ fullscreenImage: image5, ...finalObject })
-    }
   })
 
   finalImages.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
-  yield put(getImagesSuccess(finalImages))
+  yield put(getNextImagesSuccess(finalImages))
 }
 
 function* gallerySaga() {
   yield takeEvery(getImagesFetch.type, workGetImagesFetch)
+  yield takeEvery(getNextImagesFetch.type, workGetNextImagesFetch)
+
 }
 
+function* fetchImage(image, imageSize) {
+  let imageUrl = null
 
-function* NIP07LoginWorker() {
-  try {
-    const npub = yield (window.nostr.getPublicKey());
-    yield put(doNIP07LoginSuccess(npub));
-    // window.location.href = `/p/${nip19.npubEncode(npub)}`;
-  } catch (e) {
-    yield put(doNIP07LoginFailure(e));
+  if (imageSize === 'fullscreen') {
+    imageUrl = `https://21artonline.s3.amazonaws.com/${image.id}_fullsize.png`;
+  }
+  else {
+    imageUrl = `https://21artonline.s3.amazonaws.com/${image.id}_thumbnail.png`;
   }
 
-}
-function* NIP07LoginSaga() {
-  yield takeEvery(doNIP07Login.type, NIP07LoginWorker)
+  // Downloading images
+  const response = yield call(
+    axios.get,
+    imageUrl,
+    { responseType: 'arraybuffer' },
+  );
+  const imageBuffer = Buffer.from(response.data, 'binary').toString('base64');
+  let imageData = `data:image/png;base64,${imageBuffer}`
+
+  return imageData
 }
 
-function* allSagas() {
-  yield all([
-    fork(gallerySaga),
-    fork(NIP07LoginSaga)
-  ]);
+function* refineData(url) {
+  const gallery = yield call(() => fetch(url))
+  const imagesArr = yield gallery.json()
+  let refinedData = []
+  imagesArr.forEach((image) => {
+    let data = []
+    image.tags.forEach((res) => {
+      if (res.includes('21ArtMetaData')) {
+        data.push(...res)
+      }
+    })
+    refinedData.push({ data: data, originalObject: image })
+  })
+  return refinedData
 }
 
-export default allSagas;
+export default gallerySaga

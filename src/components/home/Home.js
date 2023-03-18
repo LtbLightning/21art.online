@@ -5,35 +5,36 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState, useEffect } from 'react';
-
-import image6 from './../../assets/img/image7.jpg';
-import image7 from './../../assets/img/image8.jpg';
-import image8 from './../../assets/img/image9.jpg';
-import image9 from './../../assets/img/image10.jpg';
-import image10 from './../../assets/img/image11.jpg';
 import './home.css'
 import { useSelector, useDispatch } from 'react-redux';
-import { getImagesFetch, doNIP07Login } from '../../stores/galleryStore/galleryState';
+import { getImagesFetch, getNextImagesFetch, getImagesSuccess } from '../../stores/galleryStore/galleryState';
 
 const Home = () => {
   const dispatch = useDispatch()
-  const apiResult = useSelector(state => state.gallery.images)
-  const isLoggedIn = useSelector(state => state.gallery.isLoggedIn)
-  const npub = useSelector(state => state.gallery.npub)
-
+  const currentImages = useSelector(state => state.gallery.currentImageSet)
+  const nextImages = useSelector(state => state.gallery.nextImageSet)
+  const previousImages = useSelector(state => state.gallery.PreviousImageSet)
   const isMobile = useMediaQuery({ maxWidth: 430 })
   const [imageArr, setImageArr] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(imageArr[2]);
+  const [selectedImage, setSelectedImage] = useState({});
 
+  const imageClicked = (selectedObject) => {
+    setSelectedImage(selectedObject)
+    if((selectedObject.sequencedId % 5 == 4) && (selectedObject.sequencedId > 10)) {
+      dispatch(getNextImagesFetch())
+    }
+    if((selectedObject.sequencedId % 5 == 2) && (selectedObject.sequencedId > 2)) {
+      // dispatch(getPreviousImagesFetch())
+       // left arrow will be disabled when sequenced id == 1
+    }   
+  }
   useEffect(() => {
-    let images = []
-    apiResult.forEach((res) => {
-      images.push(res.fullscreenImage)
-    })
-    setImageArr(images)
-    setSelectedImage(images[2])
-  }, [apiResult])
+    setImageArr(currentImages)
+    if(currentImages.length) {
+      setSelectedImage(currentImages[2])
+    }
+  }, [currentImages])
 
   useEffect(() => {
     dispatch(getImagesFetch())
@@ -46,24 +47,6 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleLikeIconClick = async () => {
-    console.log("handleLikeIconClick called")
-
-    if (!isLoggedIn) {
-      console.log("Not logged in")
-      await dispatch(doNIP07Login())
-      console.log("Should be logged in now ", { npub })
-      // create like event for the image and broadcast
-      // we should already know the current selected image index
-    }
-    else {
-      console.log("Already logged in ", { npub })
-      // create like event for the image and broadcast
-      // we should already know the current selected image index
-    }
-  }
-
 
   const handlePrevious = () => {
     let index = imageArr.indexOf(selectedImage)
@@ -83,26 +66,29 @@ const Home = () => {
   }
 
   const getPreviousImages = () => {
-    let newImages = [image6, image7, image8, image9, image10]
 
-    if (!newImages.includes(selectedImage)) {
-      setImageArr([...newImages])
-    }
-    else {
-      // imageArr = [image1, image2, image3, image4, image5]
-    }
-    setSelectedImage(imageArr[2])
+    // let newImages = [image6, image7, image8, image9, image10]
+
+    // if (!newImages.includes(selectedImage)) {
+    //   setImageArr([...newImages])
+    // }
+    // else {
+    //   // imageArr = [image1, image2, image3, image4, image5]
+    // }
+   
+    // setImageArr(images)
+    // setSelectedImage(imageArr[2])
   }
 
   const getNextImages = () => {
-    let newImages = [image6, image7, image8, image9, image10]
-    if (!newImages.includes(selectedImage)) {
-      setImageArr([...newImages])
-    }
-    else {
-      // imageArr = [image1, image2, image3, image4, image5]
-    }
-    setSelectedImage(imageArr[2])
+    // dispatch(getImagesSuccess(nextImages))
+    // if (!newImages.includes(selectedImage)) {
+    //   setImageArr([...newImages])
+    // }
+    // else {
+    //   // imageArr = [image1, image2, image3, image4, image5]
+    // }
+    // setSelectedImage(imageArr[2])
   }
 
   const useKeyPress = function (targetKey) {
@@ -141,7 +127,7 @@ const Home = () => {
 
   return (
     <div>
-      <img className='image-container' src={selectedImage} alt='image1' />
+      <img className='image-container' src={selectedImage.fullscreenImage} alt='image1' />
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
       </div>
@@ -160,7 +146,7 @@ const Home = () => {
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
+            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
@@ -174,7 +160,7 @@ const Home = () => {
           </div>
           <div className='carousel-image-container'>
             {imageArr.map((object, i) => {
-              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage === object ? 'outer-stroke' : ''}`} src={object} key={i} alt={`images-${i}`} onClick={() => setSelectedImage(object)} />)
+              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage.fullscreenImage === object.fullscreenImage ? 'outer-stroke' : ''}`} src={object.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
             })}
           </div>
           <div className='carousel-arrow-container-right' onClick={getNextImages}>
