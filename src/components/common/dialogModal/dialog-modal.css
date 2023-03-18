@@ -1,0 +1,340 @@
+/* For large screens */
+.dialog-modal-container {
+  width: 494px;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+}
+.error-height {
+  height: 375px;
+}
+.info-height {
+  height: 354px;
+}
+.dialog-close-btn {
+  padding-top: 10px !important;
+  padding-right: 10px !important;
+  width: 25px !important;
+  height: 25px !important;
+}
+.close-button-container {
+  display: flex;
+  justify-content: end;
+  width: 99%;
+}
+.center-align-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.error-icon {
+  width: 72px;
+  height: 62px;
+}
+.info-icon {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  width: 60px;
+  height: 60px;
+}
+.error-title {
+  margin-top: 20px;
+  font-size: 30px;
+  line-height: 45px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+}
+.dialog-paragraph {
+  margin-top: 20px;
+  width: 280px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+}
+.gradient-button {
+  margin-top: 40px;
+  background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+  border-radius: 10px;
+  width: 394px;
+  height: 60px;
+  border: none;
+  font-size: 16px;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+/* For small desktop screen 1440px */
+@media screen and (max-width: 1500px) {
+  .dialog-modal-container {
+    width: 400px;
+    background-color: #FFFFFF;
+    border-radius: 14px;
+  }
+  .error-height {
+    height: 375px;
+  }
+  .info-height {
+    height: 354px;
+  }
+  .dialog-close-btn {
+    padding-top: 10px !important;
+    padding-right: 10px !important;
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .close-button-container {
+    display: flex;
+    justify-content: end;
+    width: 99%;
+  }
+  .center-align-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .error-icon {
+    width: 72px;
+    height: 62px;
+  }
+  .info-icon {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    width: 60px;
+    height: 60px;
+  }
+  .error-title {
+    margin-top: 20px;
+    font-size: 30px;
+    line-height: 45px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .dialog-paragraph {
+    margin-top: 20px;
+    width: 280px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .gradient-button {
+    margin-top: 40px;
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 10px;
+    width: 340px;
+    height: 60px;
+    border: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}
+
+/* For tablet screens */
+@media screen and (min-width:426px) and (max-width:1024px) {
+  .dialog-modal-container {
+    width: 494px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+  }
+  .error-height {
+    height: 375px;
+  }
+  .info-height {
+    height: 354px;
+  }
+  .dialog-close-btn {
+    padding-top: 14px !important;
+    padding-right: 10px !important;
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .close-button-container {
+    display: flex;
+    justify-content: end;
+    width: 99%;
+  }
+  .center-align-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .error-icon {
+    width: 72px;
+    height: 62px;
+  }
+  .info-icon {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    width: 60px;
+    height: 60px;
+  }
+  .error-title {
+    margin-top: 20px;
+    font-size: 30px;
+    line-height: 45px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .dialog-paragraph {
+    margin-top: 20px;
+    width: 280px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .gradient-button {
+    margin-top: 40px;
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 10px;
+    width: 394px;
+    height: 60px;
+    border: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}
+/* For large mobile screens */
+@media screen and (max-width: 430px) {
+  .dialog-modal-container {
+    width: 250px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+  }
+  .error-height {
+    height: 199px;
+  }
+  .info-height {
+    height: 168px;
+  }
+  .dialog-close-btn {
+    padding-top: 10px !important;
+    padding-right: 5px !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .close-button-container {
+    display: flex;
+    justify-content: end;
+    width: 98%;
+  }
+  .center-align-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3px;
+  }
+  .error-icon {
+    width: 37px;
+    height: 31px;
+  }
+  .info-icon {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 28px;
+    height: 28px;
+  }
+  .error-title {
+    margin-top: 5px;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .dialog-paragraph {
+    margin-top: 5px;
+    width: 190px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .gradient-button {
+    margin-top: 10px;
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 6px;
+    width: 172px;
+    height: 40px;
+    border: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}
+
+/* For small mobile screens */
+@media screen and (min-width:320px) and (max-width:424px) {
+  .dialog-modal-container {
+    width: 220px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+  }
+  .error-height {
+    height: 195px;
+  }
+  .info-height {
+    height: 164px;
+  }
+  .dialog-close-btn {
+    padding-top: 10px !important;
+    padding-right: 3px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .close-button-container {
+    display: flex;
+    justify-content: end;
+    width: 97%;
+  }
+  .center-align-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3px;
+  }
+  .error-icon {
+    width: 37px;
+    height: 31px;
+  }
+  .info-icon {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 28px;
+    height: 28px;
+  }
+  .error-title {
+    margin-top: 2px;
+    font-size: 18px;
+    line-height: 45px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .dialog-paragraph {
+    margin-top: 0px;
+    width: 190px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .gradient-button {
+    margin-top: 10px;
+    background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
+    border-radius: 6px;
+    width: 172px;
+    height: 36px;
+    border: none;
+    font-size: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}

@@ -19,8 +19,8 @@ import {
   getEvents,
   doLikeEvent,
   publishArtEvents
-} from '../../stores/nostrStore/nostrState'
-
+} from '../../stores/nostrStore/nostrState';
+import DialogModal from '../common/dialogModal/DialogModal'
 
 let page = 2
 const Home = () => {
@@ -39,6 +39,7 @@ const Home = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isMouseMoving, setIsMouseMoving] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showDialogModal, setShowDialogModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
   const [likeClicked, setLikeClicked] = useState(false);
 
@@ -73,6 +74,10 @@ const Home = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDialogOpen = () => {
+    setShowDialogModal(true)
   };
 
   const handleLikeIconClick = async () => {
@@ -125,6 +130,10 @@ const Home = () => {
       )
       dispatch(getPreviousImagesFetch(page))
     }
+  }
+
+  const closeDialogModal = () => {
+    setShowDialogModal(false)
   }
 
   const getNextImages = () => {
@@ -244,6 +253,7 @@ const Home = () => {
   });
 
   return (
+
     <div>
         <img ref={imgRef} className='image-container' src={selectedImage.fullscreenImage} alt='image1' onClick={handleMouseClick} />
       <div className='logo-container'>
@@ -325,6 +335,14 @@ const Home = () => {
           </div>
         </Dialog>
       </div>
+      <Dialog
+        open={showDialogModal}
+        onClose={closeDialogModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogModal type='error' closeDialogModal={closeDialogModal} />
+      </Dialog>
     </div>
   )
 }

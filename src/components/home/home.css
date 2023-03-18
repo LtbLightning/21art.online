@@ -118,6 +118,7 @@
   background-color: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
+  justify-content: center;
   border:4px solid #BF40BF;
   backdrop-filter: blur(4px);
   right: 50px;
@@ -128,8 +129,8 @@
 .login-avatar {
   width: 49px;
   height: 49px;
-  margin-right: 10px;
-  margin-left: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 .login-text {
   color: white;
@@ -344,13 +345,13 @@
   .login-avatar {
     width: 40px;
     height: 40px;
-    margin-right: 10px;
-    margin-left: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
   }
   .login-container {
     width: 178px;
     height: 71px;
-    justify-content: start;
+    justify-content: center;
   }
   .arrow-left {
     width: 16.06px;
@@ -527,8 +528,8 @@
   .login-avatar {
     width: 24.5px;
     height: 23px;
-    margin-right: 10px;
-    margin-left: 12px;
+    margin-right: 3px;
+    margin-left: 3px;
   }
   .login-text {
     font-size: 10px;
@@ -712,8 +713,8 @@
   .login-avatar {
     width: 19.6px;
     height: 18.4px;
-    margin-right: 10px;
-    margin-left: 8px;
+    margin-right: 3px;
+    margin-left: 3px;
   }
   .login-text {
     color: white;
@@ -901,8 +902,8 @@
   .login-avatar {
     width: 49px;
     height: 49px;
-    margin-right: 10px;
-    margin-left: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
   }
   .login-text {
     color: white;
