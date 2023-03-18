@@ -13,22 +13,22 @@ import image9 from './../../assets/img/image10.jpg';
 import image10 from './../../assets/img/image11.jpg';
 import './home.css'
 import { useSelector, useDispatch } from 'react-redux';
-import { getImagesFetch } from '../../stores/galleryStore/galleryState';
+import { getImagesFetch, doNIP07Login } from '../../stores/galleryStore/galleryState';
 
 const Home = () => {
   const dispatch = useDispatch()
   const apiResult = useSelector(state => state.gallery.images)
-  const isMobile = useMediaQuery({ maxWidth: 430 })
+  const isLoggedIn = useSelector(state => state.gallery.isLoggedIn)
+  const npub = useSelector(state => state.gallery.npub)
 
+  const isMobile = useMediaQuery({ maxWidth: 430 })
   const [imageArr, setImageArr] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(imageArr[2]);
 
   useEffect(() => {
-    let rawData = [...apiResult]
     let images = []
-    rawData.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
-    rawData.forEach((res) => {
+    apiResult.forEach((res) => {
       images.push(res.fullscreenImage)
     })
     setImageArr(images)
@@ -46,6 +46,24 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleLikeIconClick = async () => {
+    console.log("handleLikeIconClick called")
+
+    if (!isLoggedIn) {
+      console.log("Not logged in")
+      await dispatch(doNIP07Login())
+      console.log("Should be logged in now ", { npub })
+      // create like event for the image and broadcast
+      // we should already know the current selected image index
+    }
+    else {
+      console.log("Already logged in ", { npub })
+      // create like event for the image and broadcast
+      // we should already know the current selected image index
+    }
+  }
+
 
   const handlePrevious = () => {
     let index = imageArr.indexOf(selectedImage)
@@ -68,7 +86,7 @@ const Home = () => {
     let newImages = [image6, image7, image8, image9, image10]
 
     if (!newImages.includes(selectedImage)) {
-      imageArr = [...newImages]
+      setImageArr([...newImages])
     }
     else {
       // imageArr = [image1, image2, image3, image4, image5]
@@ -79,7 +97,7 @@ const Home = () => {
   const getNextImages = () => {
     let newImages = [image6, image7, image8, image9, image10]
     if (!newImages.includes(selectedImage)) {
-      imageArr = [...newImages]
+      setImageArr([...newImages])
     }
     else {
       // imageArr = [image1, image2, image3, image4, image5]
@@ -142,7 +160,7 @@ const Home = () => {
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' />
+            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
