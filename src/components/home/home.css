@@ -71,6 +71,18 @@
   backdrop-filter: blur(4px);
   opacity: 0;
 }
+.action-buttons-outer-container-hover {
+  width: 461px;
+  height: 117px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border:4px solid #BF40BF;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
 .action-button-container {
   width: 89px;
   height: 87px;
@@ -287,6 +299,9 @@
   width: 35px !important;
   height: 35px !important;
 }
+.no-display {
+  display: none;
+}
 /* Media Queries */
 /* For small laptop screens */
 @media screen and (max-width: 1500px) {
@@ -315,6 +330,10 @@
     height: 72.75px;
   }
   .action-buttons-outer-container { 
+    width: 397px;
+    height: 100px;
+  }
+  .action-buttons-outer-container-hover { 
     width: 397px;
     height: 100px;
   }
@@ -476,7 +495,11 @@
     width: 236px;
     height: 60px;
     border-radius: 6px;
-
+  }
+  .action-buttons-outer-container-hover { 
+    width: 236px;
+    height: 60px;
+    border-radius: 6px;
   }
   .action-button-container {
     width: 45.56px;
@@ -634,6 +657,12 @@
     margin-right: 20px;
   }
   .action-buttons-outer-container { 
+    width: 210px;
+    height: 52px;
+    border-radius: 6px;
+    border:2px solid #BF40BF;
+  }
+  .action-buttons-outer-container-hover { 
     width: 210px;
     height: 52px;
     border-radius: 6px;
@@ -800,6 +829,11 @@
     margin-right: 30px;
   }
   .action-buttons-outer-container { 
+    width: 461px;
+    height: 117px;
+    border-radius: 10px;
+  }
+  .action-buttons-outer-container-hover { 
     width: 461px;
     height: 117px;
     border-radius: 10px;

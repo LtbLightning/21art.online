@@ -1,28 +1,69 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { useState, useEffect } from 'react';
-import image1 from './../../assets/img/image6.png';
-import image2 from './../../assets/img/image1.jpg';
-import image3 from './../../assets/img/image2.jpg';
-import image4 from './../../assets/img/image3.jpg';
-import image5 from './../../assets/img/image4.jpg';
-import image6 from './../../assets/img/image7.jpg';
-import image7 from './../../assets/img/image8.jpg';
-import image8 from './../../assets/img/image9.jpg';
-import image9 from './../../assets/img/image10.jpg';
-import image10 from './../../assets/img/image11.jpg';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import Hammer from 'react-hammerjs'
+import {
+  getImagesFetch,
+  getNextImagesFetch,
+  getPreviousImagesFetch,
+  updateImagesSet
+} from '../../stores/galleryStore/galleryState'
 import './home.css'
+import {
+  doNIP07Login,
+  getEvents,
+  doLikeEvent,
+  publishArtEvents
+} from '../../stores/nostrStore/nostrState'
 
-let imageArr = [image1, image2, image3, image4, image5]
 
+let page = 2
 const Home = () => {
+  const dispatch = useDispatch()
+  const {
+    currentImageSet,
+    nextImageSet,
+    previousImageSet
+  } = useSelector(state => state.gallery)
+
   const isMobile = useMediaQuery({ maxWidth: 430 })
+  const { isLoggedIn, npub } = useSelector(state => state.nostr)
+
+  const [imageArr, setImageArr] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+  const [isMouseMoving, setIsMouseMoving] = useState(false);
   const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(imageArr[2]);
+  const [selectedImage, setSelectedImage] = useState({});
+
+  const imageClicked = (selectedObject) => {
+    setSelectedImage(selectedObject)
+    if (((selectedObject.sequencedId % 5) === 4) && (selectedObject.sequencedId > 10)) {
+      dispatch(getNextImagesFetch(page))
+    }
+    if (((selectedObject.sequencedId % 5) === 2) && (selectedObject.sequencedId > 2)) {
+      dispatch(getPreviousImagesFetch(page))
+      // left arrow will be disabled when sequenced id == 1
+    }
+  }
+  useEffect(() => {
+    setImageArr(currentImageSet)
+    if (currentImageSet?.length) {
+      setSelectedImage(currentImageSet[2])
+    }
+  }, [currentImageSet])
+
+  useEffect(() => {
+    dispatch(getImagesFetch())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (isLoggedIn) { dispatch(getEvents()) }
+  }, [isLoggedIn])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,6 +72,20 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleLikeIconClick = async () => {
+    if (!isLoggedIn) {
+      console.log("Not logged in")
+      await dispatch(doNIP07Login('argument'))
+      console.log("Should be logged in now ", { npub })
+      // create like event for the image and broadcast
+      // we should already know the current selected image index
+    }
+    else {
+      console.log("Already logged in with ", { npub }, '\nAbout to like image')
+      dispatch(doLikeEvent(selectedImage))
+    }
+  }
 
   const handlePrevious = () => {
     let index = imageArr.indexOf(selectedImage)
@@ -41,35 +96,40 @@ const Home = () => {
 
   const handleNext = () => {
     let index = imageArr.indexOf(selectedImage)
-    if (index !== (imageArr.length - 1)) {
+    if (index !== (imageArr?.length - 1)) {
       setSelectedImage(imageArr[index + 1])
     }
-    if (index === (imageArr.length - 2)) {
-      console.log("Call API", imageArr.length - 1)
+    if (index === (imageArr?.length - 2)) {
+      console.log("Call API", imageArr?.length - 1)
     }
   }
 
   const getPreviousImages = () => {
-    let newImages = [image6, image7, image8, image9, image10]
-
-    if(!newImages.includes(selectedImage)) {
-      imageArr = [...newImages]
+    if (page > 2) {
+      page = page - 1
+      setImageArr(previousImageSet)
+      dispatch(
+        updateImagesSet({
+          imagesSetType: 'nextImageSet',
+          imagesSet: currentImageSet
+        })
+      )
+      dispatch(
+        updateImagesSet({
+          imagesSetType: 'currentImageSet',
+          imagesSet: previousImageSet
+        })
+      )
+      dispatch(getPreviousImagesFetch(page))
     }
-    else {
-      imageArr = [image1, image2, image3, image4, image5]
-    }
-    setSelectedImage(imageArr[2])
   }
 
   const getNextImages = () => {
-    let newImages = [image6, image7, image8, image9, image10]
-    if(!newImages.includes(selectedImage)) {
-      imageArr = [...newImages]
-    }
-    else {
-      imageArr = [image1, image2, image3, image4, image5]
-    }
-    setSelectedImage(imageArr[2])
+    page = page + 1
+    setImageArr(nextImageSet)
+    dispatch(updateImagesSet({ imagesSetType: 'previousImageSet', imagesSet: currentImageSet }))
+    dispatch(updateImagesSet({ imagesSetType: 'currentImageSet', imagesSet: nextImageSet }))
+    dispatch(getNextImagesFetch(page))
   }
 
   const useKeyPress = function (targetKey) {
@@ -92,7 +152,6 @@ const Home = () => {
       };
 
       window.addEventListener("keyup", keyHandler)
-
       return () => {
         window.removeEventListener("keyup", keyHandler)
       };
@@ -106,9 +165,61 @@ const Home = () => {
   useKeyPress("ArrowLeft");
   useKeyPress("ArrowRight");
 
+  function handleMouseClick() {
+    setShowMenu(!showMenu)
+  }
+
+  useEffect(() => {
+    let timer;
+
+    function handleMouseMove() {
+      if(isMobile) {
+        setShowMenu(!showMenu)
+      }
+      setIsMouseMoving(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        setIsMouseMoving(false);
+      }, isMobile ? 100 : 400);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  const imgRef = useRef(null);
+  const carouselRef = useRef(null);
+
+  function handleImageSwipe(event) {
+    // Check swipe direction and distance
+    const direction = event.direction;
+
+    if (direction === 2) {
+      handleNext()
+    } else if (direction === 4) {
+      handlePrevious()
+    }
+  }
+
+  function handleCarouselSwipe(event) {
+    // Check swipe direction and distance
+    const direction = event.direction;
+
+    if (direction === 2) {
+      getNextImages()
+    } else if (direction === 4) {
+      getPreviousImages()
+    }
+  }
+
   return (
     <div>
-      <img className='image-container' src={selectedImage} alt='image1' />
+      <Hammer onSwipe={handleImageSwipe}>
+        <img ref={imgRef} className='image-container' src={selectedImage.fullscreenImage} alt='image1' onClick={handleMouseClick} />
+      </Hammer>
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
       </div>
@@ -116,7 +227,7 @@ const Home = () => {
         <div className='arrow-container-left' onClick={handlePrevious}>
           <img className='arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
         </div>
-        <div className='action-buttons-outer-container'>
+        <div className={(showMenu || isMouseMoving) ? 'action-buttons-outer-container-hover' : 'action-buttons-outer-container'}>
           <div className='action-button-container' onClick={handleClickOpen}>
             <img className='flash-icon' src={require('./../../assets/img/flash-icon.png')} alt='flash-icon' />
           </div>
@@ -127,23 +238,25 @@ const Home = () => {
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' />
+            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
           <img className='arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-right' />
         </div>
       </div>
-      <div className='carousel-outer-container'>
+      <div className={showMenu ? 'carousel-outer-container' : 'no-display'}>
         <div className='carousel-container'>
           <div className='carousel-arrow-container-left' onClick={getPreviousImages}>
             <img className='carousel-arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
           </div>
-          <div className='carousel-image-container'>
-            {imageArr.map((object, i) => {
-              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage === object ? 'outer-stroke' : ''}`} src={object} key={i} alt={`images-${i}`} onClick={() => setSelectedImage(object)} />)
-            })}
-          </div>
+          <Hammer onSwipe={handleCarouselSwipe}>
+            <div ref={carouselRef} className='carousel-image-container'>
+              {imageArr?.map((object, i) => {
+                return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
+              })}
+            </div>
+          </Hammer>
           <div className='carousel-arrow-container-right' onClick={getNextImages}>
             <img className='carousel-arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-left' />
           </div>
