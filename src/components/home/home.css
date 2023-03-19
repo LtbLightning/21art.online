@@ -1,18 +1,32 @@
 .image-container {
-  display:block;
-  width:100vw; 
-  height:100vh;
+  display: block;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   position: fixed;
+  background-color: black;
 }
+
+.image-container-actual {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  position: fixed;
+  background-color: black;
+}
+
+
 .arrow-left {
   width: 21.42px;
   height: 37px;
 }
+
 .arrow-right {
   width: 21.42px;
   height: 37px;
 }
+
 .arrows {
   display: flex;
   flex-direction: row;
@@ -22,6 +36,7 @@
   min-height: 100vh;
   justify-content: space-between;
 }
+
 .arrow-container-left {
   z-index: 999 !important;
   width: 60px;
@@ -37,9 +52,11 @@
   opacity: 0.5;
   cursor: pointer;
 }
+
 .arrow-container-left:hover {
   opacity: 1;
 }
+
 .arrow-container-right {
   z-index: 999 !important;
   width: 60px;
@@ -55,9 +72,11 @@
   opacity: 0.5;
   backdrop-filter: blur(4px);
 }
+
 .arrow-container-right:hover {
   opacity: 1;
 }
+
 .action-buttons-outer-container {
   width: 461px;
   height: 117px;
@@ -66,11 +85,12 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.2);
-  border:4px solid #BF40BF;
+  border: 4px solid #BF40BF;
   overflow: hidden;
   backdrop-filter: blur(4px);
   opacity: 0;
 }
+
 .action-buttons-outer-container-hover {
   width: 461px;
   height: 117px;
@@ -79,10 +99,11 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.2);
-  border:4px solid #BF40BF;
+  border: 4px solid #BF40BF;
   overflow: hidden;
   backdrop-filter: blur(4px);
 }
+
 .action-button-container {
   width: 89px;
   height: 87px;
@@ -92,10 +113,11 @@
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
-  margin-left:10px;
-  margin-right:10px;
+  margin-left: 10px;
+  margin-right: 10px;
   cursor: pointer;
 }
+
 .logo-container {
   z-index: 999 !important;
   width: 238px;
@@ -105,11 +127,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border:4px solid #BF40BF;
+  border: 4px solid #BF40BF;
   backdrop-filter: blur(4px);
   margin: 50px;
   position: fixed;
 }
+
 .login-container {
   z-index: 999 !important;
   width: 238px;
@@ -118,69 +141,85 @@
   background-color: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
-  border:4px solid #BF40BF;
+  justify-content: center;
+  border: 4px solid #BF40BF;
   backdrop-filter: blur(4px);
   right: 50px;
   top: 50px;
   position: fixed;
   cursor: pointer;
 }
+
 .login-avatar {
   width: 49px;
   height: 49px;
-  margin-right: 10px;
-  margin-left: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
+
 .login-text {
   color: white;
 }
+
 .logo {
   width: 190px;
   height: 51px;
 }
+
 .flash-icon {
   width: 24px;
   height: 34px;
   opacity: 0.5;
 }
+
 .download-icon {
   width: 29px;
   height: 31px;
   opacity: 0.5;
 }
+
 .fullscreen-icon {
   width: 34px;
   height: 34px;
   opacity: 0.5;
 }
+
 .like-icon {
   width: 35px;
   height: 34px;
   opacity: 0.5;
 }
+
 .like-icon-clicked {
   width: 35px;
   height: 34px;
 }
+
 .screen-icon {
   width: 20.43px;
   height: 20.43px;
 }
+
 .action-buttons-outer-container:hover {
   opacity: 1;
 }
+
 .action-button-container:hover .flash-icon {
   opacity: 1;
 }
+
 .action-button-container:hover .download-icon {
   opacity: 1;
 }
+
 .action-button-container:hover .fullscreen-icon {
   opacity: 1;
 }
+
 .action-button-container:hover .like-icon {
   opacity: 1;
 }
+
 .carousel-container {
   width: 1092px;
   height: 161px;
@@ -189,10 +228,11 @@
   justify-content: space-between;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.2);
-  border:4px solid #BF40BF;
+  border: 4px solid #BF40BF;
   overflow: hidden;
   backdrop-filter: blur(4px);
 }
+
 .carousel-outer-container {
   z-index: 999 !important;
   width: 100vw;
@@ -202,6 +242,7 @@
   justify-content: center;
   position: fixed;
 }
+
 .carousel-arrow-container-left {
   z-index: 999 !important;
   width: 46px;
@@ -217,13 +258,16 @@
   opacity: 0.5;
   cursor: pointer;
 }
+
 .carousel-arrow-container-left:hover {
   opacity: 1;
 }
+
 .carousel-arrow-left {
   width: 21.42px;
   height: 37px;
 }
+
 .carousel-arrow-container-right {
   z-index: 999 !important;
   width: 46px;
@@ -239,13 +283,16 @@
   opacity: 0.5;
   cursor: pointer;
 }
+
 .carousel-arrow-container-right:hover {
   opacity: 1;
 }
+
 .carousel-arrow-right {
   width: 21.42px;
   height: 37px;
 }
+
 .carousel-image {
   width: 170px;
   height: 124px;
@@ -254,35 +301,42 @@
   margin-left: 6px;
   border-radius: 5px;
 }
+
 .carousel-image:hover {
   transform: scale(1.2);
 }
+
 .carousel-image-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .outer-stroke {
   border: 4px solid #ffff;
   border-radius: 10px;
 }
+
 .qrcode-outer-container {
   width: 520px;
   height: 610px;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.2) !important;
-  border:4px solid #BF40BF;
+  border: 4px solid #BF40BF;
   overflow: hidden;
   backdrop-filter: blur(4px);
 }
+
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   background-color: transparent !important;
 }
+
 .qrcode-action-button {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
+
 .screen-button-container {
   width: 46.43px;
   height: 46.43px;
@@ -296,6 +350,7 @@
   margin-top: 10px;
   cursor: pointer;
 }
+
 .qr-code {
   width: 391.86px;
   height: 393.1px;
@@ -307,29 +362,35 @@
   margin-left: 65px;
   border-radius: 20px;
 }
+
 .qr-code-icon {
   width: 317.57px;
   height: 318.81px;
 }
+
 .button {
   background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
   border-radius: 10px;
   width: 394px;
   height: 60px;
 }
+
 .qrcode-bottom-button {
   margin-top: 30px;
   margin-left: 65px;
 }
+
 .close-button {
   padding-top: 6px !important;
   padding-right: 12px !important;
   width: 35px !important;
   height: 35px !important;
 }
+
 .no-display {
   display: none;
 }
+
 /* Media Queries */
 /* For small laptop screens */
 @media screen and (max-width: 1500px) {
@@ -337,127 +398,155 @@
     width: 142px !important;
     height: 38px !important;
   }
+
   .logo-container {
     width: 178px;
     height: 71px;
   }
+
   .login-avatar {
     width: 40px;
     height: 40px;
-    margin-right: 10px;
-    margin-left: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
   }
+
   .login-container {
     width: 178px;
     height: 71px;
-    justify-content: start;
+    justify-content: center;
   }
+
   .arrow-left {
     width: 16.06px;
     height: 27.75px;
   }
+
   .arrow-right {
     width: 16.06px;
     height: 27.75px;
   }
+
   .arrow-container-left {
     width: 45px;
     height: 72.75px;
   }
+
   .arrow-container-right {
     width: 45px;
     height: 72.75px;
   }
-  .action-buttons-outer-container { 
+
+  .action-buttons-outer-container {
     width: 397px;
     height: 100px;
   }
-  .action-buttons-outer-container-hover { 
+
+  .action-buttons-outer-container-hover {
     width: 397px;
     height: 100px;
   }
+
   .action-button-container {
     width: 76.64px;
     height: 74.36px;
-    margin-left:8px;
-    margin-right:8px;
+    margin-left: 8px;
+    margin-right: 8px;
   }
+
   .flash-icon {
     width: 20.67px;
     height: 29.06px;
   }
+
   .download-icon {
     width: 24.97px;
     height: 26.5px;
   }
+
   .fullscreen-icon {
     width: 29.28px;
     height: 29.28px;
   }
+
   .like-icon {
     width: 30.14px;
     height: 29.06px;
   }
+
   .like-icon-clicked {
     width: 30.14px;
     height: 29.06px;
   }
-  .screen-icon{
+
+  .screen-icon {
     width: 12.19px;
     height: 12.19px;
   }
-  .carousel-outer-container { 
+
+  .carousel-outer-container {
     width: 100vw;
     top: 80vh;
   }
+
   .carousel-container {
     width: 819px;
     height: 120px;
   }
+
   .carousel-arrow-container-left {
     width: 34px;
     height: 90px;
     border-radius: 6px;
   }
+
   .carousel-arrow-container-right {
     width: 34px;
     height: 90px;
     border-radius: 6px;
   }
+
   .carousel-arrow-left {
     width: 16px;
     height: 27px;
   }
+
   .carousel-arrow-right {
     width: 16px;
     height: 27px;
   }
+
   .carousel-image {
     width: 130px;
     height: 90px;
     border-radius: 5px;
   }
+
   .outer-stroke {
     border-radius: 6px;
-    transform:none !important;
+    transform: none !important;
   }
+
   .qrcode-outer-container {
     width: 310.3px;
     height: 364px;
     border-radius: 14px;
     background-color: rgba(255, 255, 255, 0.2) !important;
-    border:4px solid #BF40BF;
+    border: 4px solid #BF40BF;
     overflow: hidden;
     backdrop-filter: blur(4px);
   }
+
   .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     background-color: transparent !important;
   }
+
   .qrcode-action-button {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
+
   .screen-button-container {
     width: 27.7px;
     height: 27.7px;
@@ -471,6 +560,7 @@
     margin-top: 5px;
     cursor: pointer;
   }
+
   .qr-code {
     width: 233.83px;
     height: 234.57px;
@@ -482,20 +572,24 @@
     margin-left: 38px;
     border-radius: 10px;
   }
+
   .qr-code-icon {
     width: 189.5px;
     height: 190.24px;
   }
+
   .button {
     background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
     border-radius: 6px;
     width: 235.11px;
     height: 36px;
   }
+
   .qrcode-bottom-button {
     margin-top: 20px;
     margin-left: 38px;
   }
+
   .close-button {
     padding-top: 2px !important;
     padding-right: 6px !important;
@@ -510,12 +604,14 @@
     width: 135px !important;
     height: 36px !important;
   }
+
   .logo-container {
     width: 170px;
     height: 60px;
     margin: 20px;
     border-radius: 6px;
   }
+
   .login-container {
     width: 99px;
     height: 40px;
@@ -524,43 +620,52 @@
     border-radius: 6px;
     margin: 20px;
   }
+
   .login-avatar {
     width: 24.5px;
     height: 23px;
-    margin-right: 10px;
-    margin-left: 12px;
+    margin-right: 3px;
+    margin-left: 3px;
   }
+
   .login-text {
     font-size: 10px;
   }
+
   .arrow-left {
     width: 8.92px;
     height: 16.02px;
   }
+
   .arrow-right {
     width: 8.92px;
     height: 16.02px;
   }
+
   .arrow-container-left {
     width: 25px;
     height: 42px;
     margin-left: 20px;
   }
+
   .arrow-container-right {
     width: 25px;
     height: 42px;
     margin-right: 20px;
   }
-  .action-buttons-outer-container { 
+
+  .action-buttons-outer-container {
     width: 236px;
     height: 60px;
     border-radius: 6px;
   }
-  .action-buttons-outer-container-hover { 
+
+  .action-buttons-outer-container-hover {
     width: 236px;
     height: 60px;
     border-radius: 6px;
   }
+
   .action-button-container {
     width: 45.56px;
     height: 44.62px;
@@ -568,81 +673,99 @@
     margin-left: 4px;
     margin-right: 4px;
   }
+
   .flash-icon {
     width: 12.29px;
     height: 17.44px;
   }
+
   .download-icon {
     width: 14.85px;
     height: 15.9px;
   }
+
   .fullscreen-icon {
     width: 17.41px;
     height: 17.44px;
   }
+
   .like-icon {
     width: 19px;
     height: 17px;
   }
+
   .like-icon-clicked {
     width: 17.92px;
     height: 17.44px;
   }
+
   .screen-icon {
     width: 9.04px;
     height: 9.04px;
   }
-  .carousel-outer-container { 
+
+  .carousel-outer-container {
     width: 100vw;
     top: 85vh;
   }
+
   .carousel-container {
     width: 390px;
     height: 100px;
   }
+
   .carousel-arrow-container-left {
     width: 25px;
     height: 76px;
     border-radius: 4px;
   }
+
   .carousel-arrow-container-right {
     width: 25px;
     height: 76px;
     border-radius: 4px;
   }
+
   .carousel-arrow-left {
     width: 8.92px;
     height: 16.02px;
   }
+
   .carousel-arrow-right {
     width: 8.92px;
     height: 16.02px;
   }
+
   .carousel-image {
     width: 90px;
     height: 76px;
     border-radius: 5px;
   }
+
   .outer-stroke {
     border-radius: 4px;
   }
+
   .qrcode-outer-container {
     width: 230px;
     height: 274px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.2) !important;
-    border:2px solid #BF40BF;
+    border: 2px solid #BF40BF;
     overflow: hidden;
     backdrop-filter: blur(4px);
   }
+
   .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     background-color: transparent !important;
   }
+
   .qrcode-action-button {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
+
   .screen-button-container {
     width: 20.54px;
     height: 20.54px;
@@ -656,6 +779,7 @@
     margin-top: 5px;
     cursor: pointer;
   }
+
   .qr-code {
     width: 173.32px;
     height: 173.87px;
@@ -667,20 +791,24 @@
     margin-left: 28.2px;
     border-radius: 10px;
   }
+
   .qr-code-icon {
     width: 140.46px;
     height: 141.01px;
   }
+
   .button {
     background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
     border-radius: 5px;
     width: 174px;
     height: 36px;
   }
+
   .qrcode-bottom-button {
     margin-top: 10px;
     margin-left: 28.2px;
   }
+
   .close-button {
     padding-top: 2px !important;
     padding-right: 6px !important;
@@ -695,13 +823,15 @@
     width: 95.8px !important;
     height: 25.5px !important;
   }
+
   .logo-container {
     width: 120px;
     height: 42px;
     margin: 20px;
     border-radius: 4px;
-    border:1.5px solid #BF40BF;
+    border: 1.5px solid #BF40BF;
   }
+
   .login-container {
     width: 80px;
     height: 30px;
@@ -709,46 +839,55 @@
     border-radius: 4px;
     border: 1.5px solid #BF40BF;
   }
+
   .login-avatar {
     width: 19.6px;
     height: 18.4px;
-    margin-right: 10px;
-    margin-left: 8px;
+    margin-right: 3px;
+    margin-left: 3px;
   }
+
   .login-text {
     color: white;
     font-size: 8px;
   }
+
   .arrow-left {
     width: 8.92px;
     height: 16.02px;
   }
+
   .arrow-right {
     width: 8.92px;
     height: 16.02px;
   }
+
   .arrow-container-left {
     width: 25px;
     height: 42px;
     margin-left: 20px;
   }
+
   .arrow-container-right {
     width: 25px;
     height: 42px;
     margin-right: 20px;
   }
-  .action-buttons-outer-container { 
+
+  .action-buttons-outer-container {
     width: 210px;
     height: 52px;
     border-radius: 6px;
-    border:2px solid #BF40BF;
+    border: 2px solid #BF40BF;
   }
-  .action-buttons-outer-container-hover { 
+
+  .action-buttons-outer-container-hover {
     width: 210px;
     height: 52px;
     border-radius: 6px;
-    border:2px solid #BF40BF;
+    border: 2px solid #BF40BF;
   }
+
   .action-button-container {
     width: 40.54px;
     height: 38.67px;
@@ -756,59 +895,72 @@
     margin-left: 4px;
     margin-right: 4px;
   }
+
   .flash-icon {
     width: 10.93px;
     height: 15.11px;
   }
+
   .download-icon {
     width: 13.21px;
     height: 13.78px;
   }
+
   .fullscreen-icon {
     width: 15.49px;
     height: 15.11px;
   }
+
   .like-icon {
     width: 15px;
     height: 14px;
   }
+
   .like-icon-clicked {
     width: 15.94px;
     height: 15.11px;
   }
+
   .screen-icon {
     width: 7.07px;
     height: 7.06px;
   }
-  .carousel-outer-container { 
+
+  .carousel-outer-container {
     width: 100vw;
-    top: 85vh;
+    top: 80vh;
   }
+
   .carousel-container {
     width: 280px;
     height: 72px;
-    border:2px solid #BF40BF;
+    border: 2px solid #BF40BF;
   }
+
   .carousel-arrow-container-left {
     width: 18px;
     height: 54px;
     margin-left: 6px;
     border-radius: 4px;
   }
+
   .carousel-arrow-container-right {
     width: 18px;
     height: 54px;
     margin-right: 6px;
     border-radius: 4px;
   }
+
   .carousel-arrow-left {
     width: 6.43px;
     height: 11.38px;
   }
+
   .carousel-arrow-right {
     width: 6.43px;
     height: 11.38px;
   }
+
   .carousel-image {
     width: 64px;
     height: 54px;
@@ -816,27 +968,32 @@
     margin-left: 4px;
     border-radius: 5px;
   }
+
   .outer-stroke {
     border: 2px solid #ffff;
     border-radius: 4px;
   }
+
   .qrcode-outer-container {
     width: 180px;
     height: 214px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.2) !important;
-    border:2px solid #BF40BF;
+    border: 2px solid #BF40BF;
     overflow: hidden;
     backdrop-filter: blur(4px);
   }
+
   .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     background-color: transparent !important;
   }
+
   .qrcode-action-button {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
+
   .screen-button-container {
     width: 16.07px;
     height: 16.04px;
@@ -850,6 +1007,7 @@
     margin-top: 5px;
     cursor: pointer;
   }
+
   .qr-code {
     width: 135.64px;
     height: 135.8px;
@@ -861,20 +1019,24 @@
     margin-left: 22.07px;
     border-radius: 8px;
   }
+
   .qr-code-icon {
     width: 109.93px;
     height: 110.13px;
   }
+
   .button {
     background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
     border-radius: 4px;
     width: 136.17px;
     height: 28.12px;
   }
+
   .qrcode-bottom-button {
     margin-top: 7.69;
     margin-left: 22.07px;
   }
+
   .close-button {
     padding-top: 2px !important;
     padding-right: 6px !important;
@@ -889,52 +1051,63 @@
     width: 190px !important;
     height: 51px !important;
   }
+
   .login-container {
     width: 180px;
     height: 80px;
     border-radius: 10px;
   }
+
   .logo-container {
     width: 238px;
     height: 95px;
   }
+
   .login-avatar {
     width: 49px;
     height: 49px;
-    margin-right: 10px;
-    margin-left: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
   }
+
   .login-text {
     color: white;
   }
+
   .arrow-left {
     width: 15.35px;
     height: 26.7px;
   }
+
   .arrow-right {
     width: 15.35px;
     height: 26.7px;
   }
+
   .arrow-container-left {
     width: 43px;
     height: 70px;
     margin-left: 30px;
   }
+
   .arrow-container-right {
     width: 43px;
     height: 70px;
     margin-right: 30px;
   }
-  .action-buttons-outer-container { 
+
+  .action-buttons-outer-container {
     width: 461px;
     height: 117px;
     border-radius: 10px;
   }
-  .action-buttons-outer-container-hover { 
+
+  .action-buttons-outer-container-hover {
     width: 461px;
     height: 117px;
     border-radius: 10px;
   }
+
   .action-button-container {
     width: 89px;
     height: 87px;
@@ -942,81 +1115,99 @@
     margin-left: 6px;
     margin-right: 6px;
   }
+
   .flash-icon {
     width: 24px;
     height: 34px;
   }
+
   .download-icon {
     width: 29px;
     height: 31px;
   }
+
   .fullscreen-icon {
     width: 34px;
     height: 34px;
   }
+
   .like-icon {
     width: 34px;
     height: 31px;
   }
+
   .like-icon-clicked {
     width: 19.8px;
     height: 19.8px;
   }
+
   .screen-icon {
     width: 19.8px;
     height: 19.8px;
   }
-  .carousel-outer-container { 
+
+  .carousel-outer-container {
     width: 100vw;
     top: 85vh;
   }
+
   .carousel-container {
     width: 730px;
     height: 120px;
   }
+
   .carousel-arrow-container-left {
     width: 35px;
     height: 90px;
     border-radius: 5px;
   }
+
   .carousel-arrow-container-right {
     width: 35px;
     height: 90px;
     border-radius: 5px;
   }
+
   .carousel-arrow-left {
     width: 15.35px;
     height: 26.7px;
   }
+
   .carousel-arrow-right {
     width: 15.35px;
     height: 26.7px;
   }
+
   .carousel-image {
     width: 110px;
     height: 90px;
     border-radius: 5px;
   }
+
   .outer-stroke {
     border-radius: 4px;
   }
+
   .qrcode-outer-container {
     width: 504px;
     height: 596px;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.2) !important;
-    border:4px solid #BF40BF;
+    border: 4px solid #BF40BF;
     overflow: hidden;
     backdrop-filter: blur(4px);
   }
+
   .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     background-color: transparent !important;
   }
+
   .qrcode-action-button {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
+
   .screen-button-container {
     width: 45px;
     height: 45px;
@@ -1030,6 +1221,7 @@
     margin-top: 15px;
     cursor: pointer;
   }
+
   .qr-code {
     width: 379.8px;
     height: 381px;
@@ -1041,20 +1233,24 @@
     margin-left: 60px;
     border-radius: 10px;
   }
+
   .qr-code-icon {
     width: 307.8px;
     height: 309px;
   }
+
   .button {
     background: linear-gradient(90deg, #FFAE46 0%, #FF9755 19%, #E96CE9 57.29%, #BF40BF 100%);
     border-radius: 10px;
     width: 380px;
     height: 60px;
   }
+
   .qrcode-bottom-button {
     margin-top: 30px;
     margin-left: 60px;
   }
+
   .close-button {
     padding-top: 2px !important;
     padding-right: 10px !important;

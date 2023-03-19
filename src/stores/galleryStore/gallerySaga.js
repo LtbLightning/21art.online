@@ -16,9 +16,11 @@ function* workGetImagesFetch() {
   let refinedData = yield refineData('https://mocki.io/v1/32230ec5-a386-48f4-bc01-0d6199168633')
   let finalObject = []
   refinedData.forEach((res) => {
+    // const jsonString = res.data[1];
+    // const jsonStringUpdated = jsonString.slice(0, -1);
+    // const jsonObject = JSON.parse(jsonStringUpdated);
     const jsonString = res.data[1];
-    const jsonStringUpdated = jsonString.slice(0, -1);
-    const jsonObject = JSON.parse(jsonStringUpdated);
+    const jsonObject = JSON.parse(jsonString);
 
     finalObject.push({
       ...jsonObject,
@@ -107,13 +109,19 @@ function* fetchImage(image, imageSize) {
 }
 
 function* refineData(url) {
-  const gallery = yield call(() => fetch(url))
-  const imagesArr = yield gallery.json()
+  // const gallery = yield call(() => fetch(url))
+  // const imagesArr = yield gallery.json()
+  // console.log(imagesArr)
+  const unsortedEventList = yield select((state) => state.gallery.unsortedEventList)
+  const imagesArr = unsortedEventList
   let refinedData = []
   imagesArr.forEach((image) => {
+    // dont keep events without tags
+    if (image.tags < 1) return;
     let data = []
     image.tags.forEach((res) => {
-      if (res.includes('21ArtMetaData')) {
+      // if (res.includes('21ArtMetaData')) {
+      if (res[0] == '21art.online') {
         data.push(...res)
       }
     })
