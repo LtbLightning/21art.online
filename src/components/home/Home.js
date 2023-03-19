@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Hammer from 'react-hammerjs'
+import Hammer from 'hammerjs'
 import {
   getImagesFetch,
   getNextImagesFetch,
@@ -36,9 +36,11 @@ const Home = () => {
 
   const [imageArr, setImageArr] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isMouseMoving, setIsMouseMoving] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
+  const [likeClicked, setLikeClicked] = useState(false);
 
   const imageClicked = (selectedObject) => {
     setSelectedImage(selectedObject)
@@ -74,6 +76,7 @@ const Home = () => {
   };
 
   const handleLikeIconClick = async () => {
+    setLikeClicked(!likeClicked)
     if (!isLoggedIn) {
       console.log("Not logged in")
       await dispatch(doNIP07Login('argument'))
@@ -130,6 +133,10 @@ const Home = () => {
     dispatch(updateImagesSet({ imagesSetType: 'previousImageSet', imagesSet: currentImageSet }))
     dispatch(updateImagesSet({ imagesSetType: 'currentImageSet', imagesSet: nextImageSet }))
     dispatch(getNextImagesFetch(page))
+  }
+
+  const handleLogin = () => {
+    setLoggedIn(!loggedIn)
   }
 
   const useKeyPress = function (targetKey) {
@@ -193,35 +200,58 @@ const Home = () => {
   const imgRef = useRef(null);
   const carouselRef = useRef(null);
 
-  function handleImageSwipe(event) {
-    // Check swipe direction and distance
-    const direction = event.direction;
+  useEffect(() => {
+    const bgImageRef = new Hammer(imgRef.current);
+    const imgCarouselRef = new Hammer(carouselRef.current);
 
-    if (direction === 2) {
-      handleNext()
-    } else if (direction === 4) {
-      handlePrevious()
-    }
-  }
+    // enable all directions
+    bgImageRef.get('swipe').set({
+      direction: Hammer.DIRECTION_ALL,
+      threshold: 1,
+      velocity: 0.1,
+    });
+    imgCarouselRef.get('swipe').set({
+      direction: Hammer.DIRECTION_ALL,
+      threshold: 1,
+      velocity: 0.1,
+    });
 
-  function handleCarouselSwipe(event) {
-    // Check swipe direction and distance
-    const direction = event.direction;
+    // listen to events...
+    bgImageRef.on("swipeup swipedown swipeleft swiperight", function(ev) {
+      if(ev.type === 'swipeup' || ev.type === 'swipeleft') {
+        console.log(imageArr)
+        handleNext()
+      }
+      if(ev.type === 'swipedown' || ev.type === 'swiperight') {
+        handlePrevious()
+      }
+    });
 
-    if (direction === 2) {
-      getNextImages()
-    } else if (direction === 4) {
-      getPreviousImages()
-    }
-  }
+    imgCarouselRef.on("swipeleft swiperight", function(ev) {
+      if(ev.type === 'swiperight') {
+        getPreviousImages()
+      }
+      if(ev.type === 'swipeleft') {
+        getNextImages()
+      }
+    });
+    
+    // cleanup function
+    return () => {
+      bgImageRef.off("swipeup swipedown swipeleft swiperight");
+      imgCarouselRef.off("swipeleft swiperight");
+    };
+  });
 
   return (
     <div>
-      <Hammer onSwipe={handleImageSwipe}>
         <img ref={imgRef} className='image-container' src={selectedImage.fullscreenImage} alt='image1' onClick={handleMouseClick} />
-      </Hammer>
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
+      </div>
+      <div className='login-container' onClick={handleLogin}>
+        <img className='login-avatar' src={loggedIn ? require('./../../assets/img/loggedIn-avatar.png') : require('./../../assets/img/login-avatar.png')} alt='logo' />
+        <div className='login-text'>{loggedIn ? 'Elina KKr' : 'Login'}</div>
       </div>
       <div className='arrows'>
         <div className='arrow-container-left' onClick={handlePrevious}>
@@ -238,7 +268,7 @@ const Home = () => {
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
+            <img className='like-icon' src={likeClicked ? require('./../../assets/img/like-icon-clicked.png') :require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
@@ -250,13 +280,11 @@ const Home = () => {
           <div className='carousel-arrow-container-left' onClick={getPreviousImages}>
             <img className='carousel-arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
           </div>
-          <Hammer onSwipe={handleCarouselSwipe}>
             <div ref={carouselRef} className='carousel-image-container'>
               {imageArr?.map((object, i) => {
                 return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
               })}
             </div>
-          </Hammer>
           <div className='carousel-arrow-container-right' onClick={getNextImages}>
             <img className='carousel-arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-left' />
           </div>
