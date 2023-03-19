@@ -196,7 +196,7 @@ function* doLikeEventWorker({ payload }) {
 
 // This will only be used internally for publishing new art events
 function* publishArtEventWorker({ payload }) {
-  const { id, sequenceId } = { id: '21artonlineimageaabb10', sequenceId: '10' }
+  const { id, sequenceId } = { id: '21artonlineimageaabb33', sequenceId: '33' }
   const pubKey = 'xpub'
   const privKey = 'xpriv'
   const artId = id
