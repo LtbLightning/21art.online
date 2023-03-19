@@ -89,6 +89,7 @@ const Home = () => {
   };
 
   const handleLikeIconClick = async () => {
+    setLikeClicked(true)
     if (!isLoggedIn) {
       console.log("Not logged in")
       await dispatch(doNIP07Login())
@@ -104,6 +105,7 @@ const Home = () => {
   }
 
   const handlePrevious = () => {
+    setLikeClicked(false)
     let index = imageArr.indexOf(selectedImage)
     if (index !== 0) {
       setSelectedImage(imageArr[index - 1])
@@ -111,6 +113,7 @@ const Home = () => {
   }
 
   const handleNext = () => {
+    setLikeClicked(false)
     let index = imageArr.indexOf(selectedImage)
     if (index !== (imageArr?.length - 1)) {
       setSelectedImage(imageArr[index + 1])
@@ -274,9 +277,6 @@ const Home = () => {
         <div className={(showMenu || isMouseMoving) ? 'action-buttons-outer-container-hover' : 'action-buttons-outer-container'}>
           <div className='action-button-container' onClick={handleClickOpen}>
             <img className='flash-icon' src={require('./../../assets/img/flash-icon.png')} alt='flash-icon' />
-          </div>
-          <div className='action-button-container'>
-            <img className='download-icon' src={require('./../../assets/img/download-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' onClick={handleActualSize} />
