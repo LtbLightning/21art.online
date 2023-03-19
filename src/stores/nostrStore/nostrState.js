@@ -3,9 +3,11 @@ import { createSlice } from "@reduxjs/toolkit"
 export const nostrSlice = createSlice({
   name: 'nostr',
   initialState: {
+    npub: null,
+    userInfo: {},
+    userFollows: {},
     relay: null,
     isLoggedIn: false,
-    npub: null,
     isLoading: false,
     mockData: {
       originalEvent: {
@@ -35,9 +37,15 @@ export const nostrSlice = createSlice({
     // Get Events
     getEvents: (state) => {
     },
+    updateUserProfile: (state, action) => {
+      state.userInfo = action.payload
+    },
+    updateUserFollows: (state, action) => {
+      state.userFollows = action.payload
+    },
     getEventsSuccess: (state, action) => {
       console.log('getEventsSuccess ', action.payload)
-      state.relay = action.payload
+      state.relay = action.payload.relay
     },
     getEventsFailure: (state) => {
     },
@@ -51,7 +59,7 @@ export const nostrSlice = createSlice({
     },
     // internal use, not exposed to UI
     // publish list of events
-    publishArtEvents: (state, action) => {
+    publishArtEvent: (state, action) => {
       state.events = action.payload
     }
   }
@@ -64,10 +72,12 @@ export const {
   getEvents,
   getEventsSuccess,
   getEventsFailure,
+  updateUserProfile,
+  updateUserFollows,
   doLikeEvent,
   doLikeEventSuccess,
   doLikeEventFailure,
-  publishArtEvents
+  publishArtEvent
 } = nostrSlice.actions
 
 export const nostrReducer = nostrSlice.reducer

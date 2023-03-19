@@ -18,7 +18,7 @@ import {
   doNIP07Login,
   getEvents,
   doLikeEvent,
-  publishArtEvents
+  publishArtEvent
 } from '../../stores/nostrStore/nostrState';
 import DialogModal from '../common/dialogModal/DialogModal'
 
@@ -28,21 +28,25 @@ const Home = () => {
   const {
     currentImageSet,
     nextImageSet,
-    previousImageSet
+    previousImageSet,
+    eventListRetrieved
   } = useSelector(state => state.gallery)
 
   const isMobile = useMediaQuery({ maxWidth: 430 })
-  const { isLoggedIn, npub } = useSelector(state => state.nostr)
+  const { npub, isLoggedIn, userInfo } = useSelector(state => state.nostr)
 
   const [imageArr, setImageArr] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [isMouseMoving, setIsMouseMoving] = useState(false);
   const [open, setOpen] = useState(false);
   const [showDialogModal, setShowDialogModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
   const [likeClicked, setLikeClicked] = useState(false);
+  const [showActual, setShowActual] = useState(true);
 
+  const handleActualSize = () => {
+    setShowActual(!showActual)
+  }
   const imageClicked = (selectedObject) => {
     setSelectedImage(selectedObject)
     if (((selectedObject.sequencedId % 5) === 4) && (selectedObject.sequencedId > 10)) {
@@ -56,17 +60,17 @@ const Home = () => {
   useEffect(() => {
     setImageArr(currentImageSet)
     if (currentImageSet?.length) {
-      setSelectedImage(currentImageSet[2])
+      setSelectedImage(currentImageSet[0])
     }
   }, [currentImageSet])
 
   useEffect(() => {
-    dispatch(getImagesFetch())
+    dispatch(getEvents())
   }, [dispatch])
 
   useEffect(() => {
-    if (isLoggedIn) { dispatch(getEvents()) }
-  }, [isLoggedIn])
+    if (eventListRetrieved) { dispatch(getImagesFetch()) }
+  }, [eventListRetrieved])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,18 +80,22 @@ const Home = () => {
     setOpen(false);
   };
 
+  const handleLogin = async () => {
+    if (!isLoggedIn) { await dispatch(doNIP07Login()) }
+    // await dispatch(publishArtEvent())
+  }
   const handleDialogOpen = () => {
     setShowDialogModal(true)
   };
 
   const handleLikeIconClick = async () => {
-    setLikeClicked(!likeClicked)
     if (!isLoggedIn) {
       console.log("Not logged in")
-      await dispatch(doNIP07Login('argument'))
+      await dispatch(doNIP07Login())
       console.log("Should be logged in now ", { npub })
       // create like event for the image and broadcast
       // we should already know the current selected image index
+      // await dispatch(doLikeEvent(selectedImage))
     }
     else {
       console.log("Already logged in with ", { npub }, '\nAbout to like image')
@@ -144,10 +152,6 @@ const Home = () => {
     dispatch(getNextImagesFetch(page))
   }
 
-  const handleLogin = () => {
-    setLoggedIn(!loggedIn)
-  }
-
   const useKeyPress = function (targetKey) {
     useEffect(() => {
       const keyHandler = ({ key }) => {
@@ -189,7 +193,7 @@ const Home = () => {
     let timer;
 
     function handleMouseMove() {
-      if(isMobile) {
+      if (isMobile) {
         setShowMenu(!showMenu)
       }
       setIsMouseMoving(true);
@@ -226,25 +230,25 @@ const Home = () => {
     });
 
     // listen to events...
-    bgImageRef.on("swipeup swipedown swipeleft swiperight", function(ev) {
-      if(ev.type === 'swipeup' || ev.type === 'swipeleft') {
+    bgImageRef.on("swipeup swipedown swipeleft swiperight", function (ev) {
+      if (ev.type === 'swipeup' || ev.type === 'swipeleft') {
         console.log(imageArr)
         handleNext()
       }
-      if(ev.type === 'swipedown' || ev.type === 'swiperight') {
+      if (ev.type === 'swipedown' || ev.type === 'swiperight') {
         handlePrevious()
       }
     });
 
-    imgCarouselRef.on("swipeleft swiperight", function(ev) {
-      if(ev.type === 'swiperight') {
+    imgCarouselRef.on("swipeleft swiperight", function (ev) {
+      if (ev.type === 'swiperight') {
         getPreviousImages()
       }
-      if(ev.type === 'swipeleft') {
+      if (ev.type === 'swipeleft') {
         getNextImages()
       }
     });
-    
+
     // cleanup function
     return () => {
       bgImageRef.off("swipeup swipedown swipeleft swiperight");
@@ -255,13 +259,13 @@ const Home = () => {
   return (
 
     <div>
-        <img ref={imgRef} className='image-container' src={selectedImage.fullscreenImage} alt='image1' onClick={handleMouseClick} />
+      <img ref={imgRef} className={showActual ? 'image-container' : 'image-container-actual'} src={selectedImage?.fullscreenImage || require('./../../assets/img/initialBackground.png')} alt='image1' onClick={handleMouseClick} />
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
       </div>
       <div className='login-container' onClick={handleLogin}>
-        <img className='login-avatar' src={loggedIn ? require('./../../assets/img/loggedIn-avatar.png') : require('./../../assets/img/login-avatar.png')} alt='logo' />
-        <div className='login-text'>{loggedIn ? 'Elina KKr' : 'Login'}</div>
+        <img className='login-avatar' src={isLoggedIn ? userInfo?.picture : require('./../../assets/img/login-avatar.png')} alt='logo' />
+        <div className='login-text'>{isLoggedIn ? userInfo?.name : 'Login'}</div>
       </div>
       <div className='arrows'>
         <div className='arrow-container-left' onClick={handlePrevious}>
@@ -275,10 +279,10 @@ const Home = () => {
             <img className='download-icon' src={require('./../../assets/img/download-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
+            <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' onClick={handleActualSize} />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={likeClicked ? require('./../../assets/img/like-icon-clicked.png') :require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
+            <img className='like-icon' src={likeClicked ? require('./../../assets/img/like-icon-clicked.png') : require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
@@ -290,11 +294,11 @@ const Home = () => {
           <div className='carousel-arrow-container-left' onClick={getPreviousImages}>
             <img className='carousel-arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
           </div>
-            <div ref={carouselRef} className='carousel-image-container'>
-              {imageArr?.map((object, i) => {
-                return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
-              })}
-            </div>
+          <div ref={carouselRef} className='carousel-image-container'>
+            {imageArr?.map((object, i) => {
+              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
+            })}
+          </div>
           <div className='carousel-arrow-container-right' onClick={getNextImages}>
             <img className='carousel-arrow-right' src={require('./../../assets/img/arrow-right.png')} alt='arrow-left' />
           </div>
@@ -310,7 +314,7 @@ const Home = () => {
           <div className='qrcode-outer-container'>
             <div className='qrcode-action-button'>
               <div className='screen-button-container'>
-                <img className='screen-icon' src={require('./../../assets/img/screen-icon.png')} alt='screen-icon' />
+                <img className='screen-icon' src={require('./../../assets/img/screen-icon.png')} alt='copy to clipboard' onClick={() => { navigator.clipboard.writeText('lnurl1dp68gurn8ghj7em9w3skccne9e3k7mf09emk2mrv944kummhdchkcmn4wfk8qtmzd96xxmmfde5k6ct8d9hx2eqqx7tna') }} />
               </div>
               <IconButton
                 aria-label="close"
@@ -325,7 +329,7 @@ const Home = () => {
               </IconButton>
             </div>
             <div className='qr-code'>
-              <img className='qr-code-icon' src={require('./../../assets/img/qr-code.png')} alt='screen-icon' />
+              <img className='qr-code-icon' src={require('./../../assets/img/21art_qrcode.png')} alt='screen-icon' />
             </div>
             <div className='qrcode-bottom-button'>
               <Button onClick={handleClose} className="button" variant="contained">
