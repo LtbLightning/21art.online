@@ -64,7 +64,7 @@ function imageListChannel() {
     // let's query for an event that exists
     let sub = relay.sub([
       {
-        authors: ['4dcae5c60ed258e687ecd4decade045740926054ff656582cf47d38416f28629'],
+        authors: ['031f3c690619df040f2de7cdbf2342de845406b38167c6835b4980fcb4fe4426'],
         kinds: [1],
         limit: 33
       }
@@ -196,14 +196,14 @@ function* doLikeEventWorker({ payload }) {
 
 // This will only be used internally for publishing new art events
 function* publishArtEventWorker({ payload }) {
-  const { id, sequenceId } = { id: '21artonlineimageaabb8', sequenceId: '8' }
+  const { id, sequenceId } = { id: '21artonlineimageaabb10', sequenceId: '10' }
   const pubKey = 'xpub'
   const privKey = 'xpriv'
   const artId = id
   const artSequenceId = sequenceId
   const artEvent = {
     "kind": 1,
-    "content": `Visit https://21Art.Online for more!\n\nhttps://21artonline.s3.amazonaws.com/${artId}_thumbnail.png\n`,
+    "content": `Visit https://www.21Art.Online for more!\n\nhttps://21artonline.s3.amazonaws.com/${artId}_postSize.png\n`,
     "tags": [
       ["t", "bitcoin", "21artonline", "art", "21art", "21art.online"],
       ["21art.online", JSON.stringify({
