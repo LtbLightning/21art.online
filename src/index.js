@@ -4,19 +4,28 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
+import { combineReducers } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga'
 import { configureStore } from '@reduxjs/toolkit'
 import { reducer } from './stores/galleryStore/galleryState'
+import { nostrReducer } from './stores/nostrStore/nostrState'
 import gallerySaga from './stores/galleryStore/gallerySaga'
+import nostrSaga from './stores/nostrStore/nostrSaga'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const saga = createSagaMiddleware()
+const rootReducer = combineReducers({
+  gallery: reducer,
+  nostr: nostrReducer
+})
+
 const store = configureStore({
-  reducer: { gallery: reducer },
+  reducer: rootReducer,
   middleware: [saga]
 })
 
+saga.run(nostrSaga)
 saga.run(gallerySaga)
 
 root.render(

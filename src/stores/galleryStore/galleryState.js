@@ -84,4 +84,5 @@ export const {
   getSortedDataFailure,
   updateImagesSet
 } = gallerySlice.actions
+
 export const reducer = gallerySlice.reducer

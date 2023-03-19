@@ -6,16 +6,32 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getImagesFetch, getNextImagesFetch, getPreviousImagesFetch, updateImagesSet } from '../../stores/galleryStore/galleryState'
+import {
+  getImagesFetch,
+  getNextImagesFetch,
+  getPreviousImagesFetch,
+  updateImagesSet
+} from '../../stores/galleryStore/galleryState'
 import './home.css'
+import {
+  doNIP07Login,
+  getEvents,
+  doLikeEvent,
+  publishArtEvents
+} from '../../stores/nostrStore/nostrState';
 
 let page = 2
 const Home = () => {
   const dispatch = useDispatch()
-  const currentImages = useSelector(state => state.gallery.currentImageSet)
-  const nextImages = useSelector(state => state.gallery.nextImageSet)
-  const previousImages = useSelector(state => state.gallery.previousImageSet)
+  const {
+    currentImages,
+    nextImages,
+    previousImages
+  } = useSelector(state => state.gallery)
+
   const isMobile = useMediaQuery({ maxWidth: 430 })
+  const { isLoggedIn, npub } = useSelector(state => state.nostr)
+
   const [imageArr, setImageArr] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
@@ -41,6 +57,10 @@ const Home = () => {
     dispatch(getImagesFetch())
   }, [dispatch])
 
+  useEffect(() => {
+    if (isLoggedIn) { dispatch(getEvents()) }
+  }, [isLoggedIn])
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -48,6 +68,20 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleLikeIconClick = async () => {
+    if (!isLoggedIn) {
+      console.log("Not logged in")
+      await dispatch(doNIP07Login('argument'))
+      console.log("Should be logged in now ", { npub })
+      // create like event for the image and broadcast
+      // we should already know the current selected image index
+    }
+    else {
+      console.log("Already logged in with ", { npub }, '\nAbout to like image')
+      dispatch(doLikeEvent(selectedImage))
+    }
+  }
 
   const handlePrevious = () => {
     let index = imageArr.indexOf(selectedImage)
@@ -70,8 +104,18 @@ const Home = () => {
     if (page > 2) {
       page = page - 1
       setImageArr(previousImages)
-      dispatch(updateImagesSet({ imagesSetType: 'nextImageSet', imagesSet: currentImages }))
-      dispatch(updateImagesSet({ imagesSetType: 'currentImageSet', imagesSet: previousImages }))
+      dispatch(
+        updateImagesSet({
+          imagesSetType: 'nextImageSet',
+          imagesSet: currentImages
+        })
+      )
+      dispatch(
+        updateImagesSet({
+          imagesSetType: 'currentImageSet',
+          imagesSet: previousImages
+        })
+      )
       dispatch(getPreviousImagesFetch(page))
     }
   }
@@ -139,7 +183,7 @@ const Home = () => {
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' />
+            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
