@@ -1,12 +1,12 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
-import { 
-  getImagesSuccess, 
-  getImagesFetch, 
-  getNextImagesFetch, 
-  getNextImagesSuccess, 
-  getPreviousImagesFetch, 
-  getPreviousImagesSuccess, 
-  getSortedDataSuccess 
+import {
+  getImagesSuccess,
+  getImagesFetch,
+  getNextImagesFetch,
+  getNextImagesSuccess,
+  getPreviousImagesFetch,
+  getPreviousImagesSuccess,
+  getSortedDataSuccess
 } from './galleryState'
 import axios from 'axios'
 import { Buffer } from 'buffer'

@@ -11,6 +11,7 @@ import {
   doLikeEventFailure,
   publishArtEvents
 } from './nostrState'
+import { addUnsortedEvent } from '../galleryStore/galleryState';
 
 import {
   relayInit,
@@ -42,7 +43,6 @@ function* NIP07LoginWorker(x) {
   }
 }
 // Events lists
-
 function* getEventsWorker() {
   console.log("getEventsWorker called")
   const relay = relayInit('wss://relay.damus.io')
@@ -59,7 +59,7 @@ function* getEventsWorker() {
   let sub = relay.sub([
     {
       authors: ['031f3c690619df040f2de7cdbf2342de845406b38167c6835b4980fcb4fe4426'],
-      kinds: [0],
+      kinds: [1],
       limit: 33
     }
   ])
@@ -69,6 +69,7 @@ function* getEventsWorker() {
   sub.on('eose', () => {
     sub.unsub()
   })
+  // yield put(addUnsortedEvent(['bufferedEvents', 'events']))
 }
 
 function* doLikeEventWorker({ payload }) {
@@ -139,14 +140,3 @@ function* publishArtEventsWorker({ payload }) {
 }
 
 export default nostrSaga
-
-const a = {
-  "banner": "https://void.cat/d/N2Hai6NB34hXb2gF9rYshn",
-  "website": "https://twitter.com/BitcoinImagined",
-  "nip05": "BitcoinImagined@nostrplebs.com",
-  "picture": "https://nostr.build/i/5420.png",
-  "lud16": "bitcoinimagined@getalby.com",
-  "display_name": "Bitcoin Imagined",
-  "about": "Follow for Visually Stunning Bitcoin and Nostr Art\n\nhttps://twitter.com/BitcoinImagined",
-  "name": "BitcoinImagined"
-}

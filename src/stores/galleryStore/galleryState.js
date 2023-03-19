@@ -6,10 +6,16 @@ export const gallerySlice = createSlice({
     currentImageSet: [],
     nextImageSet: [],
     previousImageSet: [],
+    unsortedEventList: [],
     sortedData: [],
     isLoading: false
   },
   reducers: {
+    // add each event to the unsorted event list
+    addUnsortedEvent: (state, action) => {
+      console.log("Adding unsorted event ", action.payload)
+      state.unsortedEventList = (action.payload)
+    },
     getImagesFetch: (state) => {
       state.isLoading = true
     },
@@ -22,7 +28,7 @@ export const gallerySlice = createSlice({
     },
     // For updating Images states
     updateImagesSet: (state, action) => {
-      if(action.payload.imagesSetType === 'currentImageSet') {
+      if (action.payload.imagesSetType === 'currentImageSet') {
         state.currentImageSet = action.payload.imagesSet
       }
       else if (action.payload.imagesSetType === 'nextImageSet') {
@@ -70,6 +76,7 @@ export const gallerySlice = createSlice({
 })
 
 export const {
+  addUnsortedEvent,
   getImagesFetch,
   getImagesSuccess,
   getImagesFailure,
