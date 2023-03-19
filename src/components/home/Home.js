@@ -241,7 +241,7 @@ const Home = () => {
       bgImageRef.off("swipeup swipedown swipeleft swiperight");
       imgCarouselRef.off("swipeleft swiperight");
     };
-  }, []);
+  });
 
   return (
     <div>
