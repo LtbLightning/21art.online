@@ -64,7 +64,7 @@ function imageListChannel() {
     // let's query for an event that exists
     let sub = relay.sub([
       {
-        authors: ['4dcae5c60ed258e687ecd4decade045740926054ff656582cf47d38416f28629'],
+        authors: ['031f3c690619df040f2de7cdbf2342de845406b38167c6835b4980fcb4fe4426'],
         kinds: [1],
         limit: 33
       }
@@ -196,14 +196,14 @@ function* doLikeEventWorker({ payload }) {
 
 // This will only be used internally for publishing new art events
 function* publishArtEventWorker({ payload }) {
-  const { id, sequenceId } = { id: '21artonlineimageaabb8', sequenceId: '8' }
+  const { id, sequenceId } = { id: '21artonlineimageaabb10', sequenceId: '10' }
   const pubKey = 'xpub'
   const privKey = 'xpriv'
   const artId = id
   const artSequenceId = sequenceId
   const artEvent = {
     "kind": 1,
-    "content": `Visit https://21Art.Online for more!\n\nhttps://21artonline.s3.amazonaws.com/${artId}_thumbnail.png\n`,
+    "content": `Visit https://www.21Art.Online for more!\n\nhttps://21artonline.s3.amazonaws.com/${artId}_postSize.png\n`,
     "tags": [
       ["t", "bitcoin", "21artonline", "art", "21art", "21art.online"],
       ["21art.online", JSON.stringify({
@@ -227,43 +227,3 @@ function* publishArtEventWorker({ payload }) {
 }
 
 export default nostrSaga
-
-const profileData = [
-  {
-    "kind": 0,
-    "content": "{\"name\":\"UsernameValue\",\"display_name\":\"NameValue\",\"picture\":\"https://nostr.build/i/nostr.build_b54c26563de133ac347df0c5bfd3a3f8d71b856d4f250f1d08a771b3dcbc914f.png\",\"about\":\"aboutValue\",\"lud16\":\"BitcoinImagined@getAlby.com\",\"nip05\":\"A@B.Com\"}",
-    "tags": [],
-    "created_at": 1679085495,
-    "pubkey": "4dcae5c60ed258e687ecd4decade045740926054ff656582cf47d38416f28629",
-    "id": "eeb87e46316e08950680be58d47acfe25d1fe5054c8b5186d84c7e7ec814b954",
-    "sig": "98d7d636934d310eb9e52f0e5863ed3c0904b721cc63fc52bf2e8a740db4a4550b3f8025f2d787a8a90d101deaf778cd71c01a02124ad0d822e2dd00ee2d81ac",
-    "meta": {
-      "revision": 0,
-      "created": 1679085495848,
-      "version": 0
-    }
-  },
-  {
-    "id": "cc478e1d3e884733b7900321bcd65bd191eb6f2bdf026944f25f01d39d82bbf3",
-    "kind": 3,
-    "pubkey": "4dcae5c60ed258e687ecd4decade045740926054ff656582cf47d38416f28629",
-    "created_at": 1678591913,
-    "content": "",
-    "tags": [
-      [
-        "p",
-        "3bf0c63fcb93463407af97a5e5ee64fa883d107ef9e558472c4eb9aaaefa459d"
-      ],
-      [
-        "p",
-        "e81ca829c9bd368cc584844078f570c105e59d9392d19ce71bb9f34c1ac633f3"
-      ]
-    ],
-    "sig": "39b89f8192ba4bc3f16244871924d2b5992c88eb6aa525909e05507fd2da299c17b3e6e89e105aeeea83a4130abbfb1c08cfe3992ace29bc54d037b62b873376",
-    "meta": {
-      "revision": 0,
-      "created": 1679085163032,
-      "version": 0
-    }
-  }
-]
