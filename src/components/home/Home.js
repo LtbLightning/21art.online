@@ -36,9 +36,11 @@ const Home = () => {
 
   const [imageArr, setImageArr] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isMouseMoving, setIsMouseMoving] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
+  const [likeClicked, setLikeClicked] = useState(false);
 
   const imageClicked = (selectedObject) => {
     setSelectedImage(selectedObject)
@@ -74,6 +76,7 @@ const Home = () => {
   };
 
   const handleLikeIconClick = async () => {
+    setLikeClicked(!likeClicked)
     if (!isLoggedIn) {
       console.log("Not logged in")
       await dispatch(doNIP07Login('argument'))
@@ -130,6 +133,10 @@ const Home = () => {
     dispatch(updateImagesSet({ imagesSetType: 'previousImageSet', imagesSet: currentImageSet }))
     dispatch(updateImagesSet({ imagesSetType: 'currentImageSet', imagesSet: nextImageSet }))
     dispatch(getNextImagesFetch(page))
+  }
+
+  const handleLogin = () => {
+    setLoggedIn(!loggedIn)
   }
 
   const useKeyPress = function (targetKey) {
@@ -223,6 +230,10 @@ const Home = () => {
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
       </div>
+      <div className='login-container' onClick={handleLogin}>
+        <img className='login-avatar' src={loggedIn ? require('./../../assets/img/loggedIn-avatar.png') : require('./../../assets/img/login-avatar.png')} alt='logo' />
+        <div className='login-text'>{loggedIn ? 'Elina KKr' : 'Login'}</div>
+      </div>
       <div className='arrows'>
         <div className='arrow-container-left' onClick={handlePrevious}>
           <img className='arrow-left' src={require('./../../assets/img/arrow-left.png')} alt='arrow-left' />
@@ -238,7 +249,7 @@ const Home = () => {
             <img className='fullscreen-icon' src={require('./../../assets/img/fullscreen-icon.png')} alt='flash-icon' />
           </div>
           <div className='action-button-container'>
-            <img className='like-icon' src={require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
+            <img className='like-icon' src={likeClicked ? require('./../../assets/img/like-icon-clicked.png') :require('./../../assets/img/like-icon.png')} alt='flash-icon' onClick={handleLikeIconClick} />
           </div>
         </div>
         <div className='arrow-container-right' onClick={handleNext}>
