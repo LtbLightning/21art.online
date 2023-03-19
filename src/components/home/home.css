@@ -685,7 +685,7 @@
 }
 
 /* For small mobile screens */
-@media screen and (min-width:320px) and (max-width:424px) {
+@media screen and (min-width:220px) and (max-width:424px) {
   .logo {
     width: 95.8px !important;
     height: 25.5px !important;
@@ -879,7 +879,7 @@
 }
 
 /* For tablet screens */
-@media screen and (min-width:426px) and (max-width:1024px) {
+@media screen and (min-width:500px) and (max-width:1024px) {
   .logo {
     width: 190px !important;
     height: 51px !important;
