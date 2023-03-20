@@ -130,9 +130,7 @@ function* NIP07LoginWorker(x) {
       const newUserInfo = JSON.parse(payload.content)
       newUserInfo.created_at = payload.created_at
       const userInfo = yield (select(state => state.nostr.userInfo))
-      console.log("newUserInfo", newUserInfo, userInfo)
       if (!userInfo.created_at || userInfo?.created_at < newUserInfo?.created_at) {
-        console.log("updating profile ...", newUserInfo, userInfo)
         yield put(updateUserProfile(newUserInfo))
       }
       if (payload.kind === 3) {
@@ -154,7 +152,15 @@ function* getEventsWorker() {
     try {
       // An error from socketChannel will cause the saga jump to the catch block
       const payload = yield take(socketChannel)
-      yield put(addUnsortedEvent(payload))
+      let addToList = false
+      payload.tags.forEach((res) => {
+        if (res[0] == '21art.online') {
+          addToList = true
+        }
+      })
+      if (addToList) {
+        yield put(addUnsortedEvent(payload))
+      }
       // yield fork(pong, socket)
     } catch (err) {
       console.log('socket error:', err)
@@ -177,13 +183,10 @@ function* doLikeEventWorker({ payload }) {
     .filter((tag) => tag[0] === 'e')
     .reverse()
     .slice(0, 100);
-  console.log("originalEvent.tags", originalEvent.tags)
-  console.log("referredEvents", referredEvents)
   likeEvent.tags = referredEvents
   likeEvent.tags.push(['e', originalEvent.id])
   likeEvent.tags.push(['p', originalEvent.pubkey])
   likeEvent.id = getEventHash(likeEvent)
-  console.log("likeEvent", likeEvent)
   const signedEvent = yield (window.nostr.signEvent(likeEvent))
   const pub = yield (relay.publish(signedEvent))
   pub.on('ok', () => {
@@ -216,7 +219,6 @@ function* publishArtEventWorker({ payload }) {
   }
   artEvent.id = getEventHash(artEvent)
   artEvent.sig = signEvent(artEvent, privKey)
-  console.log("artEvent", artEvent)
   const pub = yield (relay.publish(artEvent))
   pub.on('ok', () => {
     console.log(`${relay.url} has accepted our event`)
