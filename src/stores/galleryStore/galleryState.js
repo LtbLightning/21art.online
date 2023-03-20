@@ -9,13 +9,15 @@ export const gallerySlice = createSlice({
     unsortedEventList: [],
     sortedData: [],
     isLoading: false,
-    eventListRetrieved: false
+    eventListRetrieved: false,
+    totalImages: 0,
   },
   reducers: {
     // add each event to the unsorted event list
     addUnsortedEvent: (state, action) => {
       state.unsortedEventList.push(action.payload)
       state.eventListRetrieved = state.unsortedEventList.length > 16 ? true : false
+      state.totalImages = state.unsortedEventList.length
     },
     getImagesFetch: (state) => {
       state.isLoading = true

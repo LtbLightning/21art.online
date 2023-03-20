@@ -23,13 +23,15 @@ import {
 import DialogModal from '../common/dialogModal/DialogModal'
 
 let page = 2
+const imageSetSize = 5
 const Home = () => {
   const dispatch = useDispatch()
   const {
     currentImageSet,
     nextImageSet,
     previousImageSet,
-    eventListRetrieved
+    eventListRetrieved,
+    totalImages
   } = useSelector(state => state.gallery)
 
   const isMobile = useMediaQuery({ maxWidth: 430 })
@@ -41,6 +43,7 @@ const Home = () => {
   const [open, setOpen] = useState(false);
   const [showDialogModal, setShowDialogModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [likeClicked, setLikeClicked] = useState(false);
   const [showActual, setShowActual] = useState(true);
 
@@ -57,11 +60,12 @@ const Home = () => {
       // left arrow will be disabled when sequenced id == 1
     }
   }
+
   useEffect(() => {
     setImageArr(currentImageSet)
-    if (currentImageSet?.length) {
-      setSelectedImage(currentImageSet[0])
-    }
+    // if (currentImageSet?.length) {
+    //   setSelectedImage(currentImageSet[0])
+    // }
   }, [currentImageSet])
 
   useEffect(() => {
@@ -96,34 +100,53 @@ const Home = () => {
       console.log("Should be logged in now ", { npub })
       // create like event for the image and broadcast
       // we should already know the current selected image index
-      // await dispatch(doLikeEvent(selectedImage))
+      // await dispatch(doLikeEvent(imageArr[selectedImageIndex]))
     }
     else {
       console.log("Already logged in with ", { npub }, '\nAbout to like image')
-      dispatch(doLikeEvent(selectedImage))
+      dispatch(doLikeEvent(imageArr[selectedImageIndex]))
     }
   }
 
-  const handlePrevious = () => {
+  const handlePrevious = async () => {
     setLikeClicked(false)
-    let index = imageArr.indexOf(selectedImage)
-    if (index !== 0) {
-      setSelectedImage(imageArr[index - 1])
+    if (selectedImageIndex > 0) {
+      setSelectedImageIndex(selectedImageIndex - 1)
+    }
+    else if (selectedImageIndex === 0 && page !== 2) {
+      await getPreviousImages()
+      setSelectedImageIndex(imageSetSize - 1)
+    }
+    else if (selectedImageIndex === 0 && page === 2) {
+      setSelectedImageIndex(0)
     }
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setLikeClicked(false)
-    let index = imageArr.indexOf(selectedImage)
-    if (index !== (imageArr?.length - 1)) {
-      setSelectedImage(imageArr[index + 1])
+    if (selectedImageIndex < imageSetSize - 1 && page <= Math.ceil(totalImages / imageSetSize)) {
+      setSelectedImageIndex(selectedImageIndex + 1)
     }
-    if (index === (imageArr?.length - 2)) {
-      console.log("Call API", imageArr?.length - 1)
+    else if (selectedImageIndex === imageSetSize - 1 && page <= Math.ceil(totalImages / imageSetSize)) {
+      await getNextImages()
+      setSelectedImageIndex(0)
+    }
+    else if (selectedImageIndex < imageSetSize - 1 && page > Math.ceil(totalImages / imageSetSize)) {
+      if (selectedImageIndex + 1) {
+        setSelectedImageIndex(
+          selectedImageIndex + 1 > totalImages % imageSetSize - 1
+            ? totalImages % imageSetSize - 1
+            : selectedImageIndex + 1
+        )
+      }
+    }
+
+    if (selectedImageIndex === imageSetSize - 2) {
+      console.log("Call API", selectedImageIndex)
     }
   }
 
-  const getPreviousImages = () => {
+  const getPreviousImages = async () => {
     if (page > 2) {
       page = page - 1
       setImageArr(previousImageSet)
@@ -147,7 +170,7 @@ const Home = () => {
     setShowDialogModal(false)
   }
 
-  const getNextImages = () => {
+  const getNextImages = async () => {
     page = page + 1
     setImageArr(nextImageSet)
     dispatch(updateImagesSet({ imagesSetType: 'previousImageSet', imagesSet: currentImageSet }))
@@ -235,7 +258,6 @@ const Home = () => {
     // listen to events...
     bgImageRef.on("swipeup swipedown swipeleft swiperight", function (ev) {
       if (ev.type === 'swipeup' || ev.type === 'swipeleft') {
-        console.log(imageArr)
         handleNext()
       }
       if (ev.type === 'swipedown' || ev.type === 'swiperight') {
@@ -262,7 +284,7 @@ const Home = () => {
   return (
 
     <div>
-      <img ref={imgRef} className={showActual ? 'image-container' : 'image-container-actual'} src={selectedImage?.fullscreenImage || require('./../../assets/img/initialBackground.png')} alt='image1' onClick={handleMouseClick} />
+      <img ref={imgRef} className={showActual ? 'image-container' : 'image-container-actual'} src={imageArr[selectedImageIndex]?.fullscreenImage || require('./../../assets/img/initialBackground.png')} alt='image1' onClick={handleMouseClick} />
       <div className='logo-container'>
         <img className='logo' src={require('./../../assets/img/logo.png')} alt='logo' />
       </div>
@@ -296,7 +318,7 @@ const Home = () => {
           </div>
           <div ref={carouselRef} className='carousel-image-container'>
             {imageArr?.map((object, i) => {
-              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${selectedImage?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
+              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${imageArr[selectedImageIndex]?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
             })}
           </div>
           <div className='carousel-arrow-container-right' onClick={getNextImages}>

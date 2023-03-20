@@ -27,8 +27,7 @@ function* workGetImagesFetch() {
       originalObject: res.originalObject
     })
   })
-
-  finalObject.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
+  // finalObject.sort((a, b) => parseInt(a.sequenceId) - parseInt(b.sequenceId));
   yield put(getSortedDataSuccess(finalObject))
 
   // Getting first 5 objects
