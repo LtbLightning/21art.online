@@ -50,12 +50,13 @@ const Home = () => {
   const handleActualSize = () => {
     setShowActual(!showActual)
   }
-  const imageClicked = (selectedObject) => {
-    setSelectedImage(selectedObject)
-    if (((selectedObject.sequencedId % 5) === 4) && (selectedObject.sequencedId > 10)) {
+  const imageClicked = (i) => {
+
+    setSelectedImageIndex(i)
+    if (((imageArr[i].sequencedId % 5) === 4) && (imageArr[i].sequencedId > 10)) {
       dispatch(getNextImagesFetch(page))
     }
-    if (((selectedObject.sequencedId % 5) === 2) && (selectedObject.sequencedId > 2)) {
+    if (((imageArr[i].sequencedId % 5) === 2) && (imageArr[i].sequencedId > 2)) {
       dispatch(getPreviousImagesFetch(page))
       // left arrow will be disabled when sequenced id == 1
     }
@@ -318,7 +319,7 @@ const Home = () => {
           </div>
           <div ref={carouselRef} className='carousel-image-container'>
             {imageArr?.map((object, i) => {
-              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${imageArr[selectedImageIndex]?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(object)} />)
+              return ((!isMobile || (i !== 0 && i !== 4)) && <img className={`carousel-image ${imageArr[selectedImageIndex]?.fullscreenImage === object?.fullscreenImage ? 'outer-stroke' : ''}`} src={object?.thumbnailImage} key={i} alt={`images-${i}`} onClick={() => imageClicked(i)} />)
             })}
           </div>
           <div className='carousel-arrow-container-right' onClick={getNextImages}>
