@@ -16,7 +16,7 @@ export const gallerySlice = createSlice({
     // add each event to the unsorted event list
     addUnsortedEvent: (state, action) => {
       state.unsortedEventList.push(action.payload)
-      state.eventListRetrieved = state.unsortedEventList.length > 16 ? true : false
+      state.eventListRetrieved = state.unsortedEventList.length > 19 ? true : false
       state.totalImages = state.unsortedEventList.length
     },
     getImagesFetch: (state) => {
